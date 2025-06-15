@@ -86,18 +86,18 @@
         top: 150px;
         left: 160px;
         width: calc(100% - 180px);
-        height: calc(100% - 160px);
         background-color: #faf3dd;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 40px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 40px 60px;
         padding: 60px;
         border-radius: 20px;
+        justify-content: center;
       }
 
       .function-block {
-        width: 250px;
-        height: 180px;
+        width: 260px;
+        height: 200px;
         background-color: #a8d5ba;
         border-radius: 30px;
         display: flex;
@@ -106,11 +106,16 @@
         align-items: center;
         gap: 20px;
         cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+
+      .function-block:hover {
+        transform: scale(1.05);
       }
 
       .function-block img {
-        width: 80px;
-        height: 80px;
+        width: 90px;
+        height: 90px;
         object-fit: contain;
       }
 
