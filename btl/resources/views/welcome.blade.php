@@ -10,7 +10,7 @@
       font-family: 'Be Vietnam Pro', sans-serif;
     }
 
-    body, html {
+    html, body {
       margin: 0;
       height: 100%;
     }
@@ -28,6 +28,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 20px;
+      position: relative;
     }
 
     .left-group {
@@ -56,6 +57,9 @@
     }
 
     .brand-name {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
       font-size: 28px;
       font-weight: bold;
       color: #000;
@@ -128,6 +132,7 @@
       gap: 20px;
       cursor: pointer;
       transition: transform 0.3s;
+      text-decoration: none;
     }
 
     .function-block:hover {
@@ -151,56 +156,47 @@
     <!-- Topbar -->
     <div class="topbar">
       <div class="left-group">
-        <img src="./img/wearly_logo.png" class="wearly-logo" alt="Logo">
+        <img src="{{ asset('img/wearly_logo.png') }}" class="wearly-logo" alt="Logo">
         <div class="menu-toggle" onclick="toggleSidebar()">
           <span></span><span></span><span></span>
         </div>
-        <div class="brand-name">WEARLY</div>
       </div>
-      <img src="./img/user_avt.png" class="avatar" alt="Avatar">
+      <div class="brand-name">WEARLY</div>
+      <img src="{{ asset('img/user_avt.png') }}" class="avatar" alt="Avatar">
     </div>
 
     <!-- Layout -->
     <div class="layout">
       <!-- Sidebar -->
       <div class="sidebar" id="sidebar">
-        <div class="sidebar-item">
-          <img src="./img/product.png"><span>Quản lý sản phẩm</span>
-        </div>
-        <div class="sidebar-item">
-          <img src="./img/producer.png"><span>Quản lý nhà cung cấp</span>
-        </div>
-        <div class="sidebar-item">
-          <img src="./img/stock_in.png"><span>Quản lý nhập kho</span>
-        </div>
-        <div class="sidebar-item">
-          <img src="./img/stock_out.png"><span>Quản lý xuất kho</span>
-        </div>
-        <div class="sidebar-item">
-          <img src="./img/inventory_report.png"><span>Báo cáo thống kê</span>
-        </div>
+        <div class="sidebar-item"><img src="{{ asset('img/product.png') }}"><span>Quản lý sản phẩm</span></div>
+        <div class="sidebar-item"><img src="{{ asset('img/producer.png') }}"><span>Quản lý nhà cung cấp</span></div>
+        <div class="sidebar-item"><img src="{{ asset('img/stock_in.png') }}"><span>Quản lý nhập kho</span></div>
+        <div class="sidebar-item"><img src="{{ asset('img/stock_out.png') }}"><span>Quản lý xuất kho</span></div>
+        <div class="sidebar-item"><img src="{{ asset('img/inventory_report.png') }}"><span>Báo cáo thống kê</span></div>
       </div>
 
       <!-- Main Content -->
       <div class="main">
-        <div class="function-block">
-          <img src="./img/product.png">
+        <a href="{{ route('products') }}" class="function-block">
+          <img src="{{ asset('img/product.png') }}">
           <p>Quản lý sản phẩm</p>
-        </div>
+        </a>
+
         <div class="function-block">
-          <img src="./img/producer.png">
+          <img src="{{ asset('img/producer.png') }}">
           <p>Quản lý nhà cung cấp</p>
         </div>
         <div class="function-block">
-          <img src="./img/stock_in.png">
+          <img src="{{ asset('img/stock_in.png') }}">
           <p>Quản lý nhập kho</p>
         </div>
         <div class="function-block">
-          <img src="./img/stock_out.png">
+          <img src="{{ asset('img/stock_out.png') }}">
           <p>Quản lý xuất kho</p>
         </div>
         <div class="function-block">
-          <img src="./img/inventory_report.png">
+          <img src="{{ asset('img/inventory_report.png') }}">
           <p>Báo cáo thống kê</p>
         </div>
       </div>

@@ -3,6 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 
+use App\Http\Controllers\WearlyController;
+
+Route::get('/product', [WearlyController::class, 'index'])->name('product');
+Route::get('/product/search', [WearlyController::class, 'search'])->name('product.search');
+
+
 // Hiển thị form đăng nhập
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 
