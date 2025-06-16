@@ -18,3 +18,7 @@ Route::get('/', function () {
     }
 })->name('home');
 
+
+Route::get('/products', function () {
+    return view('product.index');
+})->name('products');
