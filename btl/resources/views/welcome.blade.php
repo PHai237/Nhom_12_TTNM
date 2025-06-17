@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -10,7 +11,8 @@
       font-family: 'Be Vietnam Pro', sans-serif;
     }
 
-    html, body {
+    html,
+    body {
       margin: 0;
       height: 100%;
     }
@@ -151,6 +153,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="bo-co-tn-kho">
     <!-- Topbar -->
@@ -169,6 +172,9 @@
     <div class="layout">
       <!-- Sidebar -->
       <div class="sidebar" id="sidebar">
+        <a href="/" class="sidebar-item" style="text-decoration: none;">
+          <img src="{{ asset('img/home.png') }}"><span>Trang chủ</span>
+        </a>
         <div class="sidebar-item"><img src="{{ asset('img/product.png') }}"><span>Quản lý sản phẩm</span></div>
         <div class="sidebar-item"><img src="{{ asset('img/producer.png') }}"><span>Quản lý nhà cung cấp</span></div>
         <div class="sidebar-item"><img src="{{ asset('img/stock_in.png') }}"><span>Quản lý nhập kho</span></div>
@@ -182,23 +188,23 @@
           <img src="{{ asset('img/product.png') }}">
           <p>Quản lý sản phẩm</p>
         </a>
-
-        <div class="function-block">
+        <a href="{{ route('producer') }}" class="function-block">
           <img src="{{ asset('img/producer.png') }}">
           <p>Quản lý nhà cung cấp</p>
-        </div>
-        <div class="function-block">
+        </a>
+        <a href="{{ route('stockin') }}" class="function-block">
           <img src="{{ asset('img/stock_in.png') }}">
           <p>Quản lý nhập kho</p>
-        </div>
-        <div class="function-block">
+        </a>
+        <a href="{{ route('stockout') }}" class="function-block">
           <img src="{{ asset('img/stock_out.png') }}">
           <p>Quản lý xuất kho</p>
-        </div>
-        <div class="function-block">
+        </a>
+        <a href="{{ route('inventory') }}" class="function-block">
           <img src="{{ asset('img/inventory_report.png') }}">
           <p>Báo cáo thống kê</p>
-        </div>
+        </a>
+
       </div>
     </div>
   </div>
@@ -209,4 +215,5 @@
     }
   </script>
 </body>
+
 </html>

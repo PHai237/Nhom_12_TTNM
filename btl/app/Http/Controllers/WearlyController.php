@@ -9,7 +9,8 @@ class WearlyController extends Controller
     public function index()
     {
         $products = Wearly::all();
-        return view('product.index', compact('product'));
+    // return view('product.index', compact('product'));
+        dd($products); // Kiểm tra dữ liệu có lấy ra không
     }
 
     public function search(Request $request)
