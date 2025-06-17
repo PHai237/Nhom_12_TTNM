@@ -151,11 +151,26 @@
       gap: 18px;
     }
     .search-box {
-      background: #e4f2ea;
+      background: var(--green);
       border-radius: 22px;
       display: flex;
       align-items: center;
       padding: 0 15px;
+    }
+
+    .add-btn {
+      background: var(--green);
+      color: #222; 
+      border: none; 
+      border-radius: 22px;
+      padding: 7px 30px; 
+      font-size: 18px; 
+      font-weight: 600; 
+      cursor: pointer;
+      display: flex; 
+      align-items: center; 
+      gap: 6px; 
+      transition: background 0.2s;
     }
     .search-box input {
       border: none; background: transparent; outline: none; font-size: 17px;
@@ -166,12 +181,13 @@
       color: #2e8656; margin-left: 6px; transition: color 0.2s;
     }
     .search-btn:hover { color: #005640; }
-    .add-btn {
-      background: #9be6c8; color: #222; border: none; border-radius: 22px;
-      padding: 7px 30px; font-size: 18px; font-weight: 600; cursor: pointer;
-      display: flex; align-items: center; gap: 6px; transition: background 0.2s;
+
+    .add-btn .icon {
+      font-size: 18px;   /* nhỏ lại một chút */
+      vertical-align: middle; /* icon sẽ canh giữa */
+      margin-left: 4px;  /* tạo khoảng cách hợp lý */
     }
-    .add-btn .icon { font-size: 20px;}
+
     .add-btn:hover { background: #7fd9b8;}
     .table-wrap { overflow-x: auto; margin-top: 6px;}
     .table-wrap {
@@ -368,7 +384,7 @@
               <input type="text" placeholder="Tìm kiếm" id="searchInput">
               <button class="search-btn" title="Tìm kiếm">&#128269;</button>
             </div>
-            <button class="add-btn"><span class="icon">➕</span>Thêm</button>
+            <button class="add-btn"><span>Thêm</span><span class="icon">➕</span></button>
           </div>
         </div>
         <div class="content-box">

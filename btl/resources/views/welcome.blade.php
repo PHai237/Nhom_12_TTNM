@@ -129,9 +129,18 @@
       width: 90%;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 40px;
+      grid-template-columns: repeat(3, 350px);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 70px;
+      justify-content: center;
     }
+    /* Đặt từng block vào đúng vị trí grid */
+    .dashboard-content .function-block:nth-child(1) { grid-column: 1; grid-row: 1; }
+    .dashboard-content .function-block:nth-child(2) { grid-column: 2; grid-row: 1; }
+    .dashboard-content .function-block:nth-child(3) { grid-column: 3; grid-row: 1; }
+    .dashboard-content .function-block:nth-child(4) { grid-column: 1; grid-row: 2; }
+    .dashboard-content .function-block:nth-child(5) { grid-column: 2; grid-row: 2; }
+    /* Đảm bảo cùng chiều cao */
     .function-block {
       background-color: #a8d5ba;
       border-radius: 20px;
@@ -150,10 +159,12 @@
     .function-block img { width: 70px; height: 70px;}
     .function-block p { font-size: 18px; color: #000; margin: 0;}
     @media (max-width: 900px) {
-      .dashboard-content { width: 99vw; gap: 20px; }
-      .main { padding: 20px 0 0 0;}
-      .sidebar { width: 70px; min-width: 70px;}
-      .sidebar-item span { display: none;}
+      .dashboard-content {
+        grid-template-columns: 1fr;
+        grid-template-rows: unset;
+        gap: 20px;
+      }
+      .function-block { height: 140px;}
     }
   </style>
 </head>
@@ -223,4 +234,3 @@
   </script>
 </body>
 </html>
-<
