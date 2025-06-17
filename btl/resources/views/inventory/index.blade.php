@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Báo cáo tồn kho - WEARLY</title>
+  <title>Báo cáo - WEARLY</title>
   <style>
     :root {
       --green: #b7dfcc;
@@ -105,153 +105,153 @@
   <!-- TOPBAR -->
   <div class="topbar">
     <div class="left-group">
-      <img src="{{ asset('img/wearly_logo.png') }}" class="wearly-logo" alt="Logo">
+      <img src="https://i.imgur.com/ZbL9qUO.png" alt="Logo" class="wearly-logo">
       <div class="menu-toggle" onclick="toggleSidebar()">
-        <span></span>
-        <span></span>
-        <span></span>
+        <span></span><span></span><span></span>
       </div>
     </div>
     <div class="brand-name">WEARLY</div>
-    <img src="{{ asset('img/user_avt.png') }}" class="avatar" alt="Avatar">
+    <img src="https://i.imgur.com/Dng9FgB.png" class="avatar" alt="Avatar">
   </div>
-    <div class="layout">
-      <!-- SIDEBAR -->
-   <div class="sidebar" id="sidebar">
-      <a href="/" class="sidebar-item active">
-        <img src="{{ asset('img/home.png') }}"><span>Trang chủ</span>
-      </a>
-      <a href="#" class="sidebar-item">
-        <img src="{{ asset('img/product.png') }}"><span>Quản lý sản phẩm</span>
-      </a>
-      <a href="#" class="sidebar-item">
-        <img src="{{ asset('img/producer.png') }}"><span>Quản lý nhà cung cấp</span>
-      </a>
-      <a href="#" class="sidebar-item">
-        <img src="{{ asset('img/stock_in.png') }}"><span>Quản lý nhập kho</span>
-      </a>
-      <a href="#" class="sidebar-item">
-        <img src="{{ asset('img/Stock_out.png') }}"><span>Quản lý xuất kho</span>
-      </a>
-      <a href="#" class="sidebar-item">
-        <img src="{{ asset('img/home.png') }}"><span>Báo cáo thống kê</span>
-      </a>
+  <div class="layout">
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebar">
+      <a href="#" class="sidebar-item"><img src="https://i.imgur.com/AlwF9gF.png"><span>Trang chủ</span></a>
+      <a href="#" class="sidebar-item"><img src="https://i.imgur.com/RQwTpwT.png"><span>Quản lý sản phẩm</span></a>
+      <a href="#" class="sidebar-item"><img src="https://i.imgur.com/v3D0Feq.png"><span>Quản lý nhà cung cấp</span></a>
+      <a href="#" class="sidebar-item"><img src="https://i.imgur.com/W5IB8un.png"><span>Quản lý nhập kho</span></a>
+      <a href="#" class="sidebar-item"><img src="https://i.imgur.com/yZIr0aD.png"><span>Quản lý xuất kho</span></a>
+      <div class="sidebar-item active" id="reportMenu">
+        <img src="https://i.imgur.com/UPLDDNi.png"><span>Báo cáo thống kê</span>
+        <span style="margin-left:auto;font-size:15px;">&#9660;</span>
+      </div>
       <div class="sidebar-submenu" id="reportSubMenu" style="display:block;">
-        <div class="sidebar-subitem active">Báo cáo tồn kho</div>
-        <div class="sidebar-subitem">Danh sách phiếu nhập kho</div>
-        <div class="sidebar-subitem">Danh sách phiếu xuất kho</div>
+        <div class="sidebar-subitem active" onclick="showTab('baoCaoTonKho', this)">Báo cáo tồn kho</div>
+        <div class="sidebar-subitem" onclick="showTab('danhSachNhap', this)">Danh sách phiếu nhập kho</div>
+        <div class="sidebar-subitem" onclick="showTab('danhSachXuat', this)">Danh sách phiếu xuất kho</div>
       </div>
     </div>
-     
     <!-- MAIN -->
     <div class="main">
       <div class="content-box">
-        <div class="content-header">
-          <h1>Báo cáo tồn kho</h1>
+        <!-- Báo cáo tồn kho -->
+        <div id="baoCaoTonKhoTab" class="tab-content">
+          <div class="content-header"><h1>Báo cáo tồn kho</h1></div>
+          <div class="filter-bar">
+            <span class="filter-label">Từ</span>
+            <select><option>01/01/2025</option><option>01/02/2025</option><option>01/03/2025</option></select>
+            <span class="filter-label">Đến</span>
+            <select><option>31/03/2025</option><option>28/02/2025</option><option>31/01/2025</option></select>
+            <span class="filter-label">Mã hàng</span>
+            <select><option>Tất cả</option><option>SP0001</option><option>SP0002</option><option>SP0003</option></select>
+            <button>Xem</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th rowspan="2">Mã sản phẩm</th>
+                  <th rowspan="2">Tên sản phẩm</th>
+                  <th colspan="2">Tồn đầu kỳ</th>
+                  <th colspan="2">Nhập trong kỳ</th>
+                  <th colspan="2">Xuất trong kỳ</th>
+                  <th colspan="2">Tồn cuối kỳ</th>
+                </tr>
+                <tr>
+                  <th>Số lượng</th><th>Thành tiền</th>
+                  <th>Số lượng</th><th>Thành tiền</th>
+                  <th>Số lượng</th><th>Thành tiền</th>
+                  <th>Số lượng</th><th>Thành tiền</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>SP0001</td><td>Áo phông</td><td>20</td><td>2.000.000</td><td>10</td><td>1.000.000</td><td>25</td><td>2.500.000</td><td>5</td><td>500.000</td></tr>
+                <tr><td>SP0002</td><td>Áo dài tay</td><td>5</td><td>750.000</td><td>10</td><td>1.500.000</td><td>8</td><td>1.200.000</td><td>7</td><td>1.050.000</td></tr>
+                <tr><td>SP0003</td><td>Áo nỉ</td><td>10</td><td>2.000.000</td><td>12</td><td>2.400.000</td><td>22</td><td>4.400.000</td><td>0</td><td>0</td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-        <div class="filter-bar">
-          <span class="filter-label">Từ</span>
-          <select id="dateFrom">
-            <option>01/01/2025</option>
-            <option>01/02/2025</option>
-            <option>01/03/2025</option>
-          </select>
-          <span class="filter-label">Đến</span>
-          <select id="dateTo">
-            <option>31/03/2025</option>
-            <option>28/02/2025</option>
-            <option>31/01/2025</option>
-          </select>
-          <span class="filter-label">Mã hàng</span>
-          <select id="productSelect">
-            <option>Tất cả</option>
-            <option>SP0001</option>
-            <option>SP0002</option>
-            <option>SP0003</option>
-          </select>
-          <button id="btnView">Xem</button>
+        <!-- Danh sách phiếu nhập kho -->
+        <div id="danhSachNhapTab" class="tab-content" style="display:none;">
+          <div class="content-header"><h1>Danh sách phiếu nhập kho</h1></div>
+          <div class="filter-bar">
+            <span class="filter-label">Từ</span>
+            <select><option>01/01/2025</option></select>
+            <span class="filter-label">Đến</span>
+            <select><option>31/03/2025</option></select>
+            <span class="filter-label">Nhà cung cấp</span>
+            <select><option>Tất cả</option><option>Hà Thành</option><option>Mặc Tinh</option><option>Flora</option></select>
+            <button>Xem</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>STT</th><th>Ngày nhập</th><th>Số phiếu</th><th>Nhà cung cấp</th><th>Số lượng</th><th>Thành tiền</th><th>Thuế VAT</th><th>Tổng cộng</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>01</td><td>01/01/2025</td><td>NK0001</td><td>Hà Thành</td><td>50</td><td>3.500.000</td><td>350.000</td><td>3.850.000</td></tr>
+                <tr><td>02</td><td>02/02/2025</td><td>NK0002</td><td>Mặc Tinh</td><td>20</td><td>2.000.000</td><td>200.000</td><td>2.200.000</td></tr>
+                <tr><td>03</td><td>03/03/2025</td><td>NK0003</td><td>Flora</td><td>30</td><td>4.500.000</td><td>360.000</td><td>4.860.000</td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-        <div class="table-wrap" id="reportTableWrap" style="display: none;">
-          <table>
-            <thead>
-              <tr>
-                <th rowspan="2">Mã sản phẩm</th>
-                <th rowspan="2">Tên sản phẩm</th>
-                <th colspan="2">Tồn đầu kỳ</th>
-                <th colspan="2">Nhập trong kỳ</th>
-                <th colspan="2">Xuất trong kỳ</th>
-                <th colspan="2">Tồn cuối kỳ</th>
-              </tr>
-              <tr>
-                <th>Số lượng</th><th>Thành tiền</th>
-                <th>Số lượng</th><th>Thành tiền</th>
-                <th>Số lượng</th><th>Thành tiền</th>
-                <th>Số lượng</th><th>Thành tiền</th>
-              </tr>
-            </thead>
-            <tbody id="reportTbody">
-            </tbody>
-          </table>
+        <!-- Danh sách phiếu xuất kho -->
+        <div id="danhSachXuatTab" class="tab-content" style="display:none;">
+          <div class="content-header"><h1>Danh sách phiếu xuất kho</h1></div>
+          <div class="filter-bar">
+            <span class="filter-label">Từ</span>
+            <select><option>01/01/2025</option></select>
+            <span class="filter-label">Đến</span>
+            <select><option>31/03/2025</option></select>
+            <span class="filter-label">Mã nhân viên</span>
+            <select><option>Tất cả</option><option>NV0001</option><option>NV0002</option><option>NV0003</option></select>
+            <button>Xem</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>STT</th><th>Ngày nhập</th><th>Số phiếu</th><th>Mã nhân viên</th><th>Số lượng</th><th>Thành tiền</th><th>Thuế VAT</th><th>Tổng cộng</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>01</td><td>01/01/2025</td><td>XK0001</td><td>NV0001</td><td>50</td><td>3.500.000</td><td>350.000</td><td>3.850.000</td></tr>
+                <tr><td>02</td><td>02/02/2025</td><td>XK0002</td><td>NV0002</td><td>20</td><td>2.000.000</td><td>200.000</td><td>2.200.000</td></tr>
+                <tr><td>03</td><td>03/03/2025</td><td>XK0003</td><td>NV0003</td><td>30</td><td>4.500.000</td><td>360.000</td><td>4.860.000</td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 <script>
-  // Dữ liệu mẫu cho báo cáo
-  const data = [
-    {
-      code: 'SP0001',
-      name: 'Áo phông',
-      startQty: 20, startVal: 2000000,
-      inQty: 10, inVal: 1000000,
-      outQty: 25, outVal: 2500000,
-      endQty: 5, endVal: 500000,
-    },
-    {
-      code: 'SP0002',
-      name: 'Áo dài tay',
-      startQty: 5, startVal: 750000,
-      inQty: 10, inVal: 1500000,
-      outQty: 8, outVal: 1200000,
-      endQty: 7, endVal: 1050000,
-    },
-    {
-      code: 'SP0003',
-      name: 'Áo nỉ',
-      startQty: 10, startVal: 2000000,
-      inQty: 12, inVal: 2400000,
-      outQty: 22, outVal: 4400000,
-      endQty: 0, endVal: 0,
+  // Xử lý hiển thị tab
+  function showTab(tab, el) {
+    // Ẩn tất cả tab content
+    document.getElementById('baoCaoTonKhoTab').style.display = 'none';
+    document.getElementById('danhSachNhapTab').style.display = 'none';
+    document.getElementById('danhSachXuatTab').style.display = 'none';
+    // Bỏ active các sidebar subitem
+    let items = document.querySelectorAll('.sidebar-subitem');
+    items.forEach(i => i.classList.remove('active'));
+    // Hiện đúng tab, active đúng mục
+    if(tab === 'baoCaoTonKho') {
+      document.getElementById('baoCaoTonKhoTab').style.display = '';
     }
-  ];
-
-  document.getElementById('btnView').onclick = function() {
-    // Lấy mã hàng chọn
-    let code = document.getElementById('productSelect').value;
-    let rows = data.filter(row => code === "Tất cả" || row.code === code);
-    let tbody = "";
-    rows.forEach(row => {
-      tbody += `<tr>
-        <td>${row.code}</td>
-        <td>${row.name}</td>
-        <td>${row.startQty}</td><td>${numberFormat(row.startVal)}</td>
-        <td>${row.inQty}</td><td>${numberFormat(row.inVal)}</td>
-        <td>${row.outQty}</td><td>${numberFormat(row.outVal)}</td>
-        <td>${row.endQty}</td><td>${numberFormat(row.endVal)}</td>
-      </tr>`;
-    });
-    document.getElementById('reportTbody').innerHTML = tbody;
-    document.getElementById('reportTableWrap').style.display = "";
-  };
-  function numberFormat(n) {
-    return n.toLocaleString("vi-VN");
+    if(tab === 'danhSachNhap') {
+      document.getElementById('danhSachNhapTab').style.display = '';
+    }
+    if(tab === 'danhSachXuat') {
+      document.getElementById('danhSachXuatTab').style.display = '';
+    }
+    el.classList.add('active');
   }
-  // Sidebar mở/đóng sub-menu
-  document.getElementById("reportMenu").onclick = function() {
-    let sub = document.getElementById("reportSubMenu");
-    sub.style.display = (sub.style.display === "none") ? "block" : "none";
-  };
   function toggleSidebar() {
     document.getElementById('sidebar').classList.toggle('hide');
   }

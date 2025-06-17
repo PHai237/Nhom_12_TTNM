@@ -279,9 +279,7 @@
       text-align: center;
       font-size: 17px;
     }
-td {
-  white-space: nowrap; /* tránh xuống dòng khi thu nhỏ chiều ngang */
-}
+
     th {
       background: var(--table-head);
       font-weight: bold;
