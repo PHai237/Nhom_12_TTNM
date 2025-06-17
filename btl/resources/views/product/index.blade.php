@@ -131,12 +131,22 @@
       padding: 38px 42px;
       margin: 0 auto;
     }
-    .content-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 24px;
-    }
+.content-header{
+  width: 90%;
+  margin: 0 auto 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.content-header h1 {
+  font-size: 42px; 
+  font-weight: bold;
+  color: #222;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
     .content-header h1 {
       font-size: 42px; font-weight: bold; color: #222; margin: 0;
       letter-spacing: 1px;
@@ -170,27 +180,68 @@
     .add-btn .icon { font-size: 20px;}
     .add-btn:hover { background: #7fd9b8;}
     .table-wrap { overflow-x: auto; margin-top: 6px;}
-    table {
-      width: 100%; border-collapse: collapse; background: #fff;
-      border-radius: 13px; overflow: hidden; box-shadow: 0 2px 8px #e5e5e5;
-    }
-    th, td {
-      border: 1px solid #d2e1d0;
-      padding: 15px 16px;
-      text-align: center;
-      font-size: 17px;
-    }
-    th {
-      background: var(--table-head);
-      font-weight: bold;
-      font-size: 18px;
-      border-bottom: 3px solid #b7dfcc;
-    }
-    tr.selected {
-      background: #b7dfcc !important;
-      color: #222 !important;
-      font-weight: bold;
-    }
+  .table-wrap {
+  margin-top: 6px;
+  overflow-x: auto;
+  background: #fff8de; /* nền vàng kem giống hình */
+  border-radius: 0;
+  padding: 10px;
+  box-shadow: none;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border: 1px solid #000;
+  border-radius: 0;
+  overflow: hidden;
+  font-size: 16px;
+  font-weight: 500;
+  color: #222;
+}
+
+thead tr th {
+  border-bottom: 1px solid #000;
+  border-right: 1px solid #000;
+  padding: 10px 8px;
+  text-align: center;
+  font-weight: 600;
+  background-color: #ffffff;
+  user-select: none;
+}
+
+thead tr th:last-child {
+  border-right: none;
+}
+
+tbody tr td {
+  border-bottom: 1px solid #000;
+  border-right: 1px solid #000;
+  padding: 10px 12px;
+  text-align: center;
+  vertical-align: middle;
+  user-select: text;
+}
+
+tbody tr td:last-child {
+  border-right: none;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Hiệu ứng tương tác vẫn giữ nguyên */
+tbody tr.selected {
+  background-color: #b7dfcc !important;
+  font-weight: 600;
+}
+
+tbody tr:hover {
+  background-color: #d1e8d3;
+  cursor: pointer;
+}
     /* ==== BOTTOM BUTTONS ==== */
     .bottom-action-bar {
       position: fixed;
@@ -300,6 +351,7 @@
       th, td { font-size: 12px; padding: 6px 6px;}
       .bottom-action-bar { right: 6px; bottom: 8px;}
       .round-btn { font-size: 14px; padding: 7px 9px;}
+      
     }
   </style>
 </head>
@@ -307,7 +359,7 @@
   <!-- TOPBAR -->
   <div class="topbar">
     <div class="left-group">
-      <img src="https://i.imgur.com/ZbL9qUO.png" alt="Logo" class="wearly-logo">
+      <img src="{{ asset('img/wearly_logo.png') }}" class="wearly-logo" alt="Logo">
       <div class="menu-toggle" onclick="toggleSidebar()">
         <span></span>
         <span></span>
@@ -315,34 +367,33 @@
       </div>
     </div>
     <div class="brand-name">WEARLY</div>
-    <img src="https://i.imgur.com/Dng9FgB.png" class="avatar" alt="Avatar">
+    <img src="{{ asset('img/user_avt.png') }}" class="avatar" alt="Avatar">
   </div>
   <div class="layout">
     <!-- SIDEBAR -->
     <div class="sidebar" id="sidebar">
       <a href="/" class="sidebar-item active">
-        <img src="https://i.imgur.com/AlwF9gF.png"><span>Trang chủ</span>
+        <img src="{{ asset('img/home.png') }}"><span>Trang chủ</span>
       </a>
       <a href="#" class="sidebar-item">
-        <img src="https://i.imgur.com/RQwTpwT.png"><span>Quản lý sản phẩm</span>
+        <img src="{{ asset('img/product.png') }}"><span>Quản lý sản phẩm</span>
       </a>
       <a href="#" class="sidebar-item">
-        <img src="https://i.imgur.com/v3D0Feq.png"><span>Quản lý nhà cung cấp</span>
+        <img src="{{ asset('img/producer.png') }}"><span>Quản lý nhà cung cấp</span>
       </a>
       <a href="#" class="sidebar-item">
-        <img src="https://i.imgur.com/W5IB8un.png"><span>Quản lý nhập kho</span>
+        <img src="{{ asset('img/stock_in.png') }}"><span>Quản lý nhập kho</span>
       </a>
       <a href="#" class="sidebar-item">
-        <img src="https://i.imgur.com/yZIr0aD.png"><span>Quản lý xuất kho</span>
+        <img src="{{ asset('img/Stock_out.png') }}"><span>Quản lý xuất kho</span>
       </a>
       <a href="#" class="sidebar-item">
-        <img src="https://i.imgur.com/UPLDDNi.png"><span>Báo cáo thống kê</span>
+        <img src="{{ asset('img/home.png') }}"><span>Báo cáo thống kê</span>
       </a>
     </div>
     <!-- MAIN -->
     <div class="main">
-      <div class="content-box">
-        <div class="content-header">
+          <div class="content-header">
           <h1>Quản Lý Sản Phẩm</h1>
           <div class="action-bar">
             <div class="search-box">
@@ -352,6 +403,7 @@
             <button class="add-btn"><span class="icon">➕</span>Thêm</button>
           </div>
         </div>
+      <div class="content-box">
         <div class="table-wrap">
           <table id="productTable">
             <thead>
