@@ -175,12 +175,23 @@
         <a href="/" class="sidebar-item" style="text-decoration: none;">
           <img src="{{ asset('img/home.png') }}"><span>Trang chủ</span>
         </a>
-        <div class="sidebar-item"><img src="{{ asset('img/product.png') }}"><span>Quản lý sản phẩm</span></div>
-        <div class="sidebar-item"><img src="{{ asset('img/producer.png') }}"><span>Quản lý nhà cung cấp</span></div>
-        <div class="sidebar-item"><img src="{{ asset('img/stock_in.png') }}"><span>Quản lý nhập kho</span></div>
-        <div class="sidebar-item"><img src="{{ asset('img/stock_out.png') }}"><span>Quản lý xuất kho</span></div>
-        <div class="sidebar-item"><img src="{{ asset('img/inventory_report.png') }}"><span>Báo cáo thống kê</span></div>
+        <a href="/" class="sidebar-item" style="text-decoration: none;">
+          <img src="{{ asset('img/product.png') }}"><span>Quản lý sản phẩm</span>
+        </a>
+        <a href="/" class="sidebar-item" style="text-decoration: none;">
+          <img src="{{ asset('img/producer.png') }}"><span>Quản lý nhà cung cấp</span>
+        </a>
+        <a href="/" class="sidebar-item" style="text-decoration: none;">
+          <img src="{{ asset('img/stock_in.png') }}"><span>Quản lý nhập kho</span>
+        </a>
+        <a href="/" class="sidebar-item" style="text-decoration: none;">
+          <img src="{{ asset('img/stock_out.png') }}"><span>Quản lý xuất kho</span>
+        </a>
+        <a href="/" class="sidebar-item" style="text-decoration: none;">
+          <img src="{{ asset('img/inventory_report.png') }}"><span>Báo cáo thống kê</span>
+        </a>
       </div>
+
 
       <!-- Main Content -->
       <div class="main">
