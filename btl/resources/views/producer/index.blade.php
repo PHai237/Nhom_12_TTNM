@@ -193,29 +193,39 @@
     <div class="container">
         <!-- Topbar -->
         <div class="topbar">
-            <div class="left-group">
-                <img src="{{ asset('img/wearly_logo.png') }}" alt="Logo" class="wearly-logo">
-                <div class="menu-toggle" onclick="toggleSidebar()">
-                    <span></span><span></span><span></span>
-                </div>
-            </div>
-            <div class="brand-name">WEARLY</div>
-            <img src="{{ asset('img/user_avt.png') }}" class="avatar" alt="Avatar">
-        </div>
-
-        <!-- Layout -->
-        <div class="layout">
-            <!-- Sidebar -->
-            <div class="sidebar" id="sidebar">
-                <a href="/" class="sidebar-item" style="text-decoration: none;">
-                    <img src="{{ asset('img/home.png') }}"><span>Trang chủ</span>
-                </a>
-                <div class="sidebar-item"><img src="{{ asset('img/product.png') }}"><span>Quản lý sản phẩm</span></div>
-                <div class="sidebar-item"><img src="{{ asset('img/producer.png') }}"><span>Quản lý nhà cung cấp</span></div>
-                <div class="sidebar-item"><img src="{{ asset('img/stock_in.png') }}"><span>Quản lý nhập kho</span></div>
-                <div class="sidebar-item"><img src="{{ asset('img/stock_out.png') }}"><span>Quản lý xuất kho</span></div>
-                <div class="sidebar-item"><img src="{{ asset('img/inventory_report.png') }}"><span>Báo cáo thống kê</span></div>
-            </div>
+    <div class="left-group">
+      <img src="{{ asset('img/wearly_logo.png') }}" class="wearly-logo" alt="Logo">
+      <div class="menu-toggle" onclick="toggleSidebar()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+    <div class="brand-name">WEARLY</div>
+    <img src="{{ asset('img/user_avt.png') }}" class="avatar" alt="Avatar">
+  </div>
+    <div class="layout">
+      <!-- SIDEBAR -->
+   <div class="sidebar" id="sidebar">
+      <a href="/" class="sidebar-item active">
+        <img src="{{ asset('img/home.png') }}"><span>Trang chủ</span>
+      </a>
+      <a href="#" class="sidebar-item">
+        <img src="{{ asset('img/product.png') }}"><span>Quản lý sản phẩm</span>
+      </a>
+      <a href="#" class="sidebar-item">
+        <img src="{{ asset('img/producer.png') }}"><span>Quản lý nhà cung cấp</span>
+      </a>
+      <a href="#" class="sidebar-item">
+        <img src="{{ asset('img/stock_in.png') }}"><span>Quản lý nhập kho</span>
+      </a>
+      <a href="#" class="sidebar-item">
+        <img src="{{ asset('img/Stock_out.png') }}"><span>Quản lý xuất kho</span>
+      </a>
+      <a href="#" class="sidebar-item">
+        <img src="{{ asset('img/home.png') }}"><span>Báo cáo thống kê</span>
+      </a>
+    </div>
 
             <!-- Main -->
             <div class="main">
