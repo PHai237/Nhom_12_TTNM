@@ -98,6 +98,21 @@
       .brand-name { font-size: 20px; padding: 6px 14px;}
       th, td { font-size: 13px; padding: 5px 4px;}
     }
+    .sidebar.hide {
+      width: 60px !important;
+      min-width: 60px !important;
+      transition: width 0.25s;
+    }
+    .sidebar.hide .sidebar-item span,
+    .sidebar.hide .sidebar-submenu,
+    .sidebar.hide .sidebar-item span:last-child {
+      display: none !important;
+    }
+    .sidebar.hide .sidebar-item {
+      justify-content: center;
+      gap: 0;
+    }
+
   </style>
 </head>
 <body>
@@ -105,24 +120,26 @@
   <!-- TOPBAR -->
   <div class="topbar">
     <div class="left-group">
-      <img src="https://i.imgur.com/ZbL9qUO.png" alt="Logo" class="wearly-logo">
+      <img src="{{ asset('img/wearly_logo.png') }}" class="wearly-logo" alt="Logo">
       <div class="menu-toggle" onclick="toggleSidebar()">
-        <span></span><span></span><span></span>
+        <span></span>
+        <span></span>
+        <span></span>
       </div>
     </div>
     <div class="brand-name">WEARLY</div>
-    <img src="https://i.imgur.com/Dng9FgB.png" class="avatar" alt="Avatar">
+    <img src="{{ asset('img/user_avt.png') }}" class="avatar" alt="Avatar">
   </div>
   <div class="layout">
     <!-- SIDEBAR -->
     <div class="sidebar" id="sidebar">
-      <a href="#" class="sidebar-item"><img src="https://i.imgur.com/AlwF9gF.png"><span>Trang chủ</span></a>
-      <a href="#" class="sidebar-item"><img src="https://i.imgur.com/RQwTpwT.png"><span>Quản lý sản phẩm</span></a>
-      <a href="#" class="sidebar-item"><img src="https://i.imgur.com/v3D0Feq.png"><span>Quản lý nhà cung cấp</span></a>
-      <a href="#" class="sidebar-item"><img src="https://i.imgur.com/W5IB8un.png"><span>Quản lý nhập kho</span></a>
-      <a href="#" class="sidebar-item"><img src="https://i.imgur.com/yZIr0aD.png"><span>Quản lý xuất kho</span></a>
+      <a href="#" class="sidebar-item"><img src='img/home.png'><span>Trang chủ</span></a>
+      <a href="#" class="sidebar-item"><img src='img/product.png'><span>Quản lý sản phẩm</span></a>
+      <a href="#" class="sidebar-item"><img src='img/producer.png'><span>Quản lý nhà cung cấp</span></a>
+      <a href="#" class="sidebar-item"><img src='img/stock_in.png'><span>Quản lý nhập kho</span></a>
+      <a href="#" class="sidebar-item"><img src='img/stock_out.png'><span>Quản lý xuất kho</span></a>
       <div class="sidebar-item active" id="reportMenu">
-        <img src="https://i.imgur.com/UPLDDNi.png"><span>Báo cáo thống kê</span>
+        <img src='img/inventory_report.png'><span>Báo cáo thống kê</span>
         <span style="margin-left:auto;font-size:15px;">&#9660;</span>
       </div>
       <div class="sidebar-submenu" id="reportSubMenu" style="display:block;">
@@ -215,7 +232,7 @@
             <table>
               <thead>
                 <tr>
-                  <th>STT</th><th>Ngày nhập</th><th>Số phiếu</th><th>Mã nhân viên</th><th>Số lượng</th><th>Thành tiền</th><th>Thuế VAT</th><th>Tổng cộng</th>
+                  <th>STT</th><th>Ngày xuất</th><th>Số phiếu</th><th>Mã nhân viên</th><th>Số lượng</th><th>Thành tiền</th><th>Thuế VAT</th><th>Tổng cộng</th>
                 </tr>
               </thead>
               <tbody>
