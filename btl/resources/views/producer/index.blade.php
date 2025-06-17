@@ -219,7 +219,7 @@
 
             <!-- Main -->
             <div class="main">
-                <h2>Quản Lý Sản Phẩm</h2>
+                <h2>Quản Lý Nhà Cung Cấp</h2>
                 <div class="header-bar">
                     <input class="search" type="text" id="searchInput" placeholder="Tìm kiếm">
                     <button class="icon-btn" onclick="filterTable()">🔍</button>
