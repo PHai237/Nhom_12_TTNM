@@ -280,7 +280,7 @@
       font-size: 17px;
     }
 td {
-  white-space: nowrap; /* tránh xuống dòng khi thu nhỏ chiều ngang */
+  white-space: nowrap; 
 }
     th {
       background: var(--table-head);
