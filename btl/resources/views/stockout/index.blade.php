@@ -171,6 +171,7 @@
       align-items: center; 
       gap: 6px; 
       transition: background 0.2s;
+      text-decoration: none;
     }
     .search-box input {
       border: none; background: transparent; outline: none; font-size: 17px;
@@ -384,7 +385,7 @@
               <input type="text" placeholder="Tìm kiếm" id="searchInput">
               <button class="search-btn" title="Tìm kiếm">&#128269;</button>
             </div>
-            <button class="add-btn"><span>Thêm</span><span class="icon">➕</span></button>
+            <a href="{{ route('stockout.create') }}" class="add-btn"><span>Thêm</span><span class="icon">➕</span></a>
           </div>
         </div>
         <div class="content-box">
