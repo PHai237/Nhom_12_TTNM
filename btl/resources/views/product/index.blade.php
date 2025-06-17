@@ -509,7 +509,7 @@
             <input type="text" placeholder="Tìm kiếm" id="searchInput">
             <button class="search-btn" title="Tìm kiếm">&#128269;</button>
           </div>
-          <button class="add-btn" id="addBtn"><span class="icon">➕</span>Thêm</button>
+          <button class="add-btn" id="addBtn"><span class="icon"><img src="{{ asset('img/add.png') }}"></span>Thêm</button>
         </div>
       </div>
       <div class="content-box">
@@ -551,6 +551,28 @@
                 <td>2/25/2025</td>
                 <td>Hàng loại 2</td>
               </tr>
+                <tr>
+                <td>SP0003</td>
+                <td>Áo phông</td>
+                <td>3</td>
+                <td>130.000đ</td>
+                <td>Cotton</td>
+                <td>áo</td>
+                <td>M</td>
+                <td>2/25/2025</td>
+                <td></td>
+              </tr>
+                <tr>
+                <td>SP0004</td>
+                <td>Áo phông</td>
+                <td>3</td>
+                <td>130.000đ</td>
+                <td>Cotton</td>
+                <td>áo</td>
+                <td>M</td>
+                <td>2/25/2025</td>
+                <td></td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -558,238 +580,275 @@
       <!-- Nút Sửa/Xóa -->
       <div class="bottom-action-bar">
         <button class="round-btn edit-btn">
-          <span class="icon">✏️</span> Sửa
+          <span class="icon"><img src="{{ asset('img/edit.png') }}"></span> Sửa
         </button>
         <button class="round-btn delete-btn" id="deleteBtn">
-          <span class="icon">🗑️</span> Xóa
+          <span class="icon"><img src="{{ asset('img/delete.png') }}"></span> Xóa
         </button>
       </div>
     </div>
     <!-- FORM THÊM SẢN PHẨM (ẩn) -->
     <div id="addFormRoot"></div>
   </div>
-  <script>
-    // Sidebar thu gọn/mở rộng
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('hide');
+ <script>
+  // Kiểm tra hợp lệ từng trường (có thể dùng cho cả thêm và sửa)
+  function validateProductForm(form) {
+    let isValid = true;
+    // Xóa thông báo cũ
+    form.querySelectorAll('.error-msg').forEach(e => e.remove());
+
+    function showError(input, msg) {
+      let err = document.createElement('div');
+      err.className = 'error-msg';
+      err.style.color = '#e84f3e';
+      err.style.fontSize = '0.99em';
+      err.style.margin = '3px 0 0 4px';
+      err.textContent = msg;
+      input.parentNode.appendChild(err);
+      isValid = false;
     }
 
-    // Tìm kiếm realtime
-    document.getElementById('searchInput').addEventListener('keyup', function() {
-      let input = this.value.toLowerCase();
-      let trs = document.querySelectorAll('#productTable tbody tr');
-      trs.forEach(row => {
-        row.style.display = row.textContent.toLowerCase().includes(input) ? '' : 'none';
-      });
+    // Quy định: chỉ chữ cái và khoảng trắng
+    const reText = /^[\p{L} ]+$/u;
+    // Quy định: số dương
+    const reNum = /^\d+$/;
+
+    const name = form.elements['name'];
+    if (!name.value.trim() || !reText.test(name.value)) {
+      showError(name, 'Tên sản phẩm không chứa ký tự số và ký tự đặc biệt!');
+    }
+
+    const qty = form.elements['qty'];
+    if (!reNum.test(qty.value) || parseInt(qty.value) <= 0) {
+      showError(qty, 'Số lượng phải là số và lớn hơn 0');
+    }
+
+    const price = form.elements['price'];
+    if (!reNum.test(price.value) || parseInt(price.value) <= 0) {
+      showError(price, 'Đơn giá phải là số và lớn hơn 0');
+    }
+
+    const size = form.elements['size'];
+    if (!size.value.trim()) {
+      showError(size, 'Vui lòng nhập kích cỡ');
+    }
+
+    const material = form.elements['material'];
+    if (!material.value.trim() || !reText.test(material.value)) {
+      showError(material, 'Chất liệu không chứa ký tự số và ký tự đặc biệt!');
+    }
+
+    const type = form.elements['type'];
+    if (!type.value.trim() || !reText.test(type.value)) {
+      showError(type, 'Loại sản phẩm không chứa ký tự số và ký tự đặc biệt!');
+    }
+
+    return isValid;
+  }
+
+  // Tìm kiếm realtime
+  document.getElementById('searchInput').addEventListener('keyup', function() {
+    let input = this.value.toLowerCase();
+    let trs = document.querySelectorAll('#productTable tbody tr');
+    trs.forEach(row => {
+      row.style.display = row.textContent.toLowerCase().includes(input) ? '' : 'none';
     });
+  });
 
-    // Chọn dòng
-    const tbody = document.querySelector('#productTable tbody');
-    let selectedRow = null;
-    tbody.addEventListener('click', function(e) {
-      let tr = e.target.closest('tr');
-      if (!tr) return;
-      tbody.querySelectorAll('tr').forEach(row => row.classList.remove('selected'));
-      tr.classList.add('selected');
-      selectedRow = tr;
-    });
+  // Chọn dòng
+  const tbody = document.querySelector('#productTable tbody');
+  let selectedRow = null;
+  tbody.addEventListener('click', function(e) {
+    let tr = e.target.closest('tr');
+    if (!tr) return;
+    tbody.querySelectorAll('tr').forEach(row => row.classList.remove('selected'));
+    tr.classList.add('selected');
+    selectedRow = tr;
+  });
 
-    // Hiện form thêm sản phẩm
-    document.getElementById('addBtn').onclick = function() {
-      showAddForm();
-    };
+  // Sidebar thu gọn/mở rộng
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('hide');
+  }
 
-    // Hàm hiện popup (thông báo/thành công/xác nhận)
-    function showPopup(type, message, onConfirm, onCancel) {
-      const popupRoot = document.getElementById('popup-root') || (() => {
-        const d = document.createElement('div');
-        d.id = 'popup-root';
-        document.body.appendChild(d);
-        return d;
-      })();
-      popupRoot.innerHTML = '';
-      const overlay = document.createElement('div');
-      overlay.style = `
+  // Hiện popup
+  function showPopup(type, message, onConfirm, onCancel) {
+    const popupRoot = document.getElementById('popup-root') || (() => {
+      const d = document.createElement('div');
+      d.id = 'popup-root';
+      document.body.appendChild(d);
+      return d;
+    })();
+    popupRoot.innerHTML = '';
+    const overlay = document.createElement('div');
+    overlay.style = `
       position:fixed;left:0;top:0;width:100vw;height:100vh;
       background:rgba(0,0,0,0.01);z-index:99999;
       display:flex;align-items:center;justify-content:center;`;
 
-      let box = document.createElement('div');
-      box.style = `
+    let box = document.createElement('div');
+    box.style = `
       min-width:310px;max-width:97vw;background:#6fc6a1;border-radius:20px;
       box-shadow:0 5px 18px #b6dfc499;position:relative;padding:36px 28px 32px 28px;
       display:flex;flex-direction:column;align-items:center;gap:18px;animation:popIn .2s;`;
-      box.innerHTML = `
+    box.innerHTML = `
       <button class="popup-close-btn" style="position:absolute;top:11px;right:18px;background:none;border:none;font-size:1.3em;cursor:pointer;color:#fff;" title="Đóng">&times;</button>
       <div style="color:#fff;font-size:1.27em;text-align:center;margin-bottom:6px;">${message}</div>
     `;
-      // Đóng popup khi ấn X
-      box.querySelector('.popup-close-btn').onclick = () => popupRoot.innerHTML = '';
-
-      // Xác nhận xoá
-      if (type === 'confirm') {
-        let btnGroup = document.createElement('div');
-        btnGroup.style = 'display:flex;gap:16px;justify-content:center;';
-        btnGroup.innerHTML = `
+    box.querySelector('.popup-close-btn').onclick = () => popupRoot.innerHTML = '';
+    if (type === 'confirm') {
+      let btnGroup = document.createElement('div');
+      btnGroup.style = 'display:flex;gap:16px;justify-content:center;';
+      btnGroup.innerHTML = `
         <button style="background:#faf3dd;color:#055b32;border:none;border-radius:11px;padding:7px 22px;font-size:1em;font-weight:600;cursor:pointer;">Xác nhận</button>
         <button style="background:#faf3dd;color:#b30000;border:none;border-radius:11px;padding:7px 22px;font-size:1em;font-weight:600;cursor:pointer;">Huỷ</button>
       `;
-        btnGroup.children[0].onclick = function() {
-          popupRoot.innerHTML = '';
-          if (onConfirm) onConfirm();
-        };
-        btnGroup.children[1].onclick = function() {
-          popupRoot.innerHTML = '';
-          if (onCancel) onCancel();
-        };
-        box.appendChild(btnGroup);
-      }
-      overlay.appendChild(box);
-      popupRoot.appendChild(overlay);
+      btnGroup.children[0].onclick = function() {
+        popupRoot.innerHTML = '';
+        if (onConfirm) onConfirm();
+      };
+      btnGroup.children[1].onclick = function() {
+        popupRoot.innerHTML = '';
+        if (onCancel) onCancel();
+      };
+      box.appendChild(btnGroup);
     }
-    // --- Nút SỬA ---
-    document.querySelector('.edit-btn').onclick = function() {
-      if (!selectedRow) {
-        showPopup('alert', 'Vui lòng chọn sản phẩm để sửa!');
-        return;
-      }
-      // Lấy dữ liệu dòng được chọn
-      const tds = selectedRow.querySelectorAll('td');
-      const values = [...tds].map(td => td.textContent);
+    overlay.appendChild(box);
+    popupRoot.appendChild(overlay);
+  }
 
-      showEditForm(values);
+  // Nút SỬA
+  document.querySelector('.edit-btn').onclick = function() {
+    if (!selectedRow) {
+      showPopup('alert', 'Vui lòng chọn sản phẩm để sửa!');
+      return;
+    }
+    // Lấy dữ liệu dòng được chọn
+    const tds = selectedRow.querySelectorAll('td');
+    const values = [...tds].map(td => td.textContent);
+
+    showEditForm(values);
+  };
+
+  function showEditForm(values) {
+    const addFormRoot = document.getElementById('addFormRoot');
+    addFormRoot.innerHTML = `
+      <div class="overlay-form" id="overlayForm">
+        <form class="add-form-popup" id="editForm" autocomplete="off">
+          <div class="add-form-title">Sửa sản phẩm</div>
+          <div class="add-form-content-2col">
+            <div class="col">
+              <div class="add-form-row">
+                <label>Mã sản phẩm</label>
+                <input class="add-form-field" name="code" value="${values[0] || ''}" readonly />
+              </div>
+              <div class="add-form-row">
+                <label>Tên sản phẩm</label>
+                <input class="add-form-field" name="name" value="${values[1] || ''}" required />
+              </div>
+              <div class="add-form-row">
+                <label>Số lượng</label>
+                <input class="add-form-field" name="qty" type="number" min="0" value="${values[2] || ''}" required />
+              </div>
+              <div class="add-form-row">
+                <label>Đơn giá</label>
+                <input class="add-form-field" name="price" type="text" value="${values[3] || ''}" required />
+              </div>
+              <div class="add-form-row">
+                <label>Ngày thêm</label>
+                <input class="add-form-field" name="date" type="date" value="${convertDateForInput(values[7])}" required/>
+              </div>
+            </div>
+            <div class="col">
+              <div class="add-form-row">
+                <label>Kích cỡ</label>
+                <input class="add-form-field" name="size" value="${values[6] || ''}" required />
+              </div>
+              <div class="add-form-row">
+                <label>Chất liệu</label>
+                <input class="add-form-field" name="material" value="${values[4] || ''}" required />
+              </div>
+              <div class="add-form-row">
+                <label>Loại sản phẩm</label>
+                <input class="add-form-field" name="type" value="${values[5] || ''}" required />
+              </div>
+              <div class="add-form-row">
+                <label>Ghi chú</label>
+                <input class="add-form-field" name="note" value="${values[8] || ''}" />
+              </div>
+            </div>
+          </div>
+          <div class="add-form-btns">
+            <button type="button" class="add-form-btn" id="cancelEditBtn">Quay lại</button>
+            <button type="submit" class="add-form-btn confirm">Xác nhận</button>
+          </div>
+        </form>
+      </div>
+    `;
+    // Xử lý quay lại (đóng form)
+    document.getElementById('cancelEditBtn').onclick = function() {
+      addFormRoot.innerHTML = '';
     };
-
-    function showEditForm(values) {
-      const addFormRoot = document.getElementById('addFormRoot');
-      addFormRoot.innerHTML = `
-    <div class="overlay-form" id="overlayForm">
-      <form class="add-form-popup" id="editForm" autocomplete="off">
-        <div class="add-form-title">Sửa sản phẩm</div>
-        <div class="add-form-content-2col">
-          <div class="col">
-            <div class="add-form-row">
-              <label>Mã sản phẩm</label>
-              <input class="add-form-field" name="code" value="${values[0] || ''}" readonly />
-            </div>
-            <div class="add-form-row">
-              <label>Tên sản phẩm</label>
-              <input class="add-form-field" name="name" value="${values[1] || ''}" required />
-            </div>
-            <div class="add-form-row">
-              <label>Số lượng</label>
-              <input class="add-form-field" name="qty" type="number" min="0" value="${values[2] || ''}" required />
-            </div>
-            <div class="add-form-row">
-              <label>Đơn giá</label>
-              <input class="add-form-field" name="price" type="text" value="${values[3] || ''}" required />
-            </div>
-            <div class="add-form-row">
-              <label>Ngày thêm</label>
-              <input class="add-form-field" name="date" type="date" value="${convertDateForInput(values[7])}" required/>
-            </div>
-          </div>
-          <div class="col">
-            <div class="add-form-row">
-              <label>Kích cỡ</label>
-              <input class="add-form-field" name="size" value="${values[6] || ''}" required />
-            </div>
-            <div class="add-form-row">
-              <label>Chất liệu</label>
-              <input class="add-form-field" name="material" value="${values[4] || ''}" required />
-            </div>
-            <div class="add-form-row">
-              <label>Loại sản phẩm</label>
-              <input class="add-form-field" name="type" value="${values[5] || ''}" required />
-            </div>
-            <div class="add-form-row">
-              <label>Ghi chú</label>
-              <input class="add-form-field" name="note" value="${values[8] || ''}" />
-            </div>
-          </div>
-        </div>
-        <div class="add-form-btns">
-          <button type="button" class="add-form-btn" id="cancelEditBtn">Quay lại</button>
-          <button type="submit" class="add-form-btn confirm">Xác nhận</button>
-        </div>
-      </form>
-    </div>
-  `;
-
-      // Xử lý quay lại (đóng form)
-      document.getElementById('cancelEditBtn').onclick = function() {
+    // Đóng khi click ra ngoài
+    document.getElementById('overlayForm').onclick = function(e) {
+      if (e.target === this) addFormRoot.innerHTML = '';
+    };
+    // Xác nhận sửa sản phẩm
+    document.getElementById('editForm').onsubmit = function(e) {
+      e.preventDefault();
+      if (!validateProductForm(this)) return;
+      showPopup('confirm', 'Bạn có chắc muốn sửa không?', () => {
+        let fd = new FormData(document.getElementById('editForm'));
+        let arr = [
+          fd.get('code'),
+          fd.get('name'),
+          fd.get('qty'),
+          fd.get('price'),
+          fd.get('material'),
+          fd.get('type'),
+          fd.get('size'),
+          fd.get('date'),
+          fd.get('note')
+        ];
+        // Ghi lại dữ liệu vào dòng đã chọn
+        const tds = selectedRow.querySelectorAll('td');
+        tds[0].textContent = arr[0];
+        tds[1].textContent = arr[1];
+        tds[2].textContent = arr[2];
+        tds[3].textContent = arr[3];
+        tds[4].textContent = arr[4];
+        tds[5].textContent = arr[5];
+        tds[6].textContent = arr[6];
+        tds[7].textContent = arr[7];
+        tds[8].textContent = arr[8];
         addFormRoot.innerHTML = '';
-      };
-      // Đóng khi click ra ngoài
-      document.getElementById('overlayForm').onclick = function(e) {
-        if (e.target === this) addFormRoot.innerHTML = '';
-      };
-      // Xác nhận sửa sản phẩm
-      document.getElementById('editForm').onsubmit = function(e) {
-        e.preventDefault();
-        // Hiện popup xác nhận sửa
-        showPopup('confirm', 'Bạn có chắc muốn sửa không?', function() {
-          let fd = new FormData(document.getElementById('editForm'));
-          let arr = [
-            fd.get('code'),
-            fd.get('name'),
-            fd.get('qty'),
-            fd.get('price'),
-            fd.get('material'),
-            fd.get('type'),
-            fd.get('size'),
-            fd.get('date'),
-            fd.get('note')
-          ];
-          // Ghi lại dữ liệu vào dòng đã chọn
-          const tds = selectedRow.querySelectorAll('td');
-          tds[0].textContent = arr[0];
-          tds[1].textContent = arr[1];
-          tds[2].textContent = arr[2];
-          tds[3].textContent = arr[3];
-          tds[4].textContent = arr[4];
-          tds[5].textContent = arr[5];
-          tds[6].textContent = arr[6];
-          tds[7].textContent = arr[7];
-          tds[8].textContent = arr[8];
-          addFormRoot.innerHTML = '';
-          showPopup('success', 'Sửa thành công!');
-          setTimeout(() => document.getElementById('popup-root').innerHTML = '', 1300);
-        });
-      };
-    }
-
-    // Chuyển ngày từ bảng (dạng 2/25/2025) về dạng input type="date" (2025-02-25)
-    function convertDateForInput(str) {
-      if (!str) return '';
-      let parts = str.split('/');
-      if (parts.length === 3) {
-        // Nếu là MM/DD/YYYY
-        return `${parts[2]}-${parts[0].padStart(2, '0')}-${parts[1].padStart(2, '0')}`;
-      }
-      // Nếu là YYYY-MM-DD hoặc đã đúng thì trả lại luôn
-      return str;
-    }
-
-
-    // --- Nút XÓA ---
-    document.getElementById('deleteBtn').onclick = function() {
-      if (!selectedRow) {
-        showPopup('alert', 'Vui lòng chọn sản phẩm để xoá!');
-        return;
-      }
-      showPopup('confirm', 'Bạn có chắc muốn xoá không?', function() {
-        selectedRow.parentNode.removeChild(selectedRow);
-        selectedRow = null;
-        showPopup('success', 'Xoá thành công!');
+        showPopup('success', 'Sửa thành công!');
         setTimeout(() => document.getElementById('popup-root').innerHTML = '', 1200);
       });
     };
+  }
 
-    // FORM POPUP THÊM SẢN PHẨM (2 CỘT)
-    function showAddForm() {
-      const addFormRoot = document.getElementById('addFormRoot');
-      addFormRoot.innerHTML = `
+  // Nút XÓA
+  document.getElementById('deleteBtn').onclick = function() {
+    if (!selectedRow) {
+      showPopup('alert', 'Vui lòng chọn sản phẩm để xoá!');
+      return;
+    }
+    showPopup('confirm', 'Bạn có chắc muốn xoá không?', function() {
+      selectedRow.parentNode.removeChild(selectedRow);
+      selectedRow = null;
+      showPopup('success', 'Xoá thành công!');
+      setTimeout(() => document.getElementById('popup-root').innerHTML = '', 1200);
+    });
+  };
+
+  // FORM POPUP THÊM SẢN PHẨM (2 CỘT)
+  document.getElementById('addBtn').onclick = function() {
+    showAddForm();
+  };
+  function showAddForm() {
+    const addFormRoot = document.getElementById('addFormRoot');
+    addFormRoot.innerHTML = `
       <div class="overlay-form" id="overlayForm">
         <form class="add-form-popup" id="addForm" autocomplete="off">
           <div class="add-form-title">Thêm sản phẩm</div>
@@ -842,20 +901,18 @@
         </form>
       </div>
     `;
-      // Xử lý quay lại (đóng form)
-      document.getElementById('cancelBtn').onclick = function() {
-        addFormRoot.innerHTML = '';
-      };
-      // Đóng khi click ra ngoài
-      document.getElementById('overlayForm').onclick = function(e) {
-        if (e.target === this) addFormRoot.innerHTML = '';
-      };
-      // Xác nhận thêm sản phẩm
-      document.getElementById('addForm').onsubmit = function(e) {
-        e.preventDefault();
-        let fd = new FormData(this);
-        let tr = document.createElement('tr');
-        tr.innerHTML = `
+    document.getElementById('cancelBtn').onclick = function() {
+      addFormRoot.innerHTML = '';
+    };
+    document.getElementById('overlayForm').onclick = function(e) {
+      if (e.target === this) addFormRoot.innerHTML = '';
+    };
+    document.getElementById('addForm').onsubmit = function(e) {
+      e.preventDefault();
+      if (!validateProductForm(this)) return;
+      let fd = new FormData(this);
+      let tr = document.createElement('tr');
+      tr.innerHTML = `
         <td>${fd.get('code')}</td>
         <td>${fd.get('name')}</td>
         <td>${fd.get('qty')}</td>
@@ -866,35 +923,49 @@
         <td>${fd.get('date')}</td>
         <td>${fd.get('note')}</td>
       `;
-        document.querySelector('#productTable tbody').appendChild(tr);
-        addFormRoot.innerHTML = '';
-        showPopup('success', 'Thêm thành công!');
-        setTimeout(() => document.getElementById('popup-root').innerHTML = '', 1200);
-      };
-    }
+      document.querySelector('#productTable tbody').appendChild(tr);
+      addFormRoot.innerHTML = '';
+      showPopup('success', 'Thêm thành công!');
+      setTimeout(() => document.getElementById('popup-root').innerHTML = '', 1200);
+    };
+  }
 
-    // Sidebar active (giữ lại trạng thái chọn)
-    document.querySelectorAll('.sidebar-item').forEach(item => {
-      item.addEventListener('click', function(e) {
-        document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
-        this.classList.add('active');
-        // Nếu là Trang chủ thì về /
-        if (this.innerText.trim() === 'Trang chủ') {
-          window.location.href = '/';
-        }
-      });
+  // Sidebar active (giữ lại trạng thái chọn)
+  document.querySelectorAll('.sidebar-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+      this.classList.add('active');
+      if (this.innerText.trim() === 'Trang chủ') {
+        window.location.href = '/';
+      }
     });
+  });
 
-    // Optional: hiệu ứng popup
-    const style = document.createElement('style');
-    style.innerHTML = `
+  // Optional: hiệu ứng popup
+  const style = document.createElement('style');
+  style.innerHTML = `
     @keyframes popIn {
       from { transform: scale(.85); opacity: 0; }
       to   { transform: scale(1); opacity: 1; }
     }
+    .error-msg {
+      color: #e84f3e;
+      font-size: 0.99em;
+      margin: 3px 0 0 4px;
+    }
   `;
-    document.head.appendChild(style);
-  </script>
+  document.head.appendChild(style);
+
+  // Chuyển ngày từ bảng (dạng 2/25/2025) về dạng input type="date" (2025-02-25)
+  function convertDateForInput(str) {
+    if (!str) return '';
+    let parts = str.split('/');
+    if (parts.length === 3) {
+      return `${parts[2]}-${parts[0].padStart(2, '0')}-${parts[1].padStart(2, '0')}`;
+    }
+    return str;
+  }
+</script>
 
 </body>
 
