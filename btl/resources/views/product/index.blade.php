@@ -181,7 +181,7 @@
     <!-- SIDEBAR -->
     <div class="sidebar" id="sidebar">
       <a href="/" class="sidebar-item active">
-        <img src="home.png"><span>Trang chủ</span>
+        <img src="{{ asset('img/home.png') }}"><span>Trang chủ</span>
       </a>
       <a href="#" class="sidebar-item">
         <img src="product.png"><span>Quản lý sản phẩm</span>
