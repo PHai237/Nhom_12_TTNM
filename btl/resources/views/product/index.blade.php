@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,66 +13,333 @@
       --yellow: #faf3dd;
       --main-shadow: 0 2px 14px 2px #dbe8e0;
     }
-    html, body { margin: 0; padding: 0; height: 100%; background: var(--yellow);}
-    * { box-sizing: border-box; font-family: 'Be Vietnam Pro', Arial, sans-serif;}
-    .layout { display: flex; min-height: 100vh; }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: var(--yellow);
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Be Vietnam Pro', Arial, sans-serif;
+    }
+
+    .layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
     .topbar {
       background: var(--green);
-      height: 80px; display: flex; align-items: center; justify-content: space-between;
-      box-shadow: var(--main-shadow); padding: 0 38px 0 0; position: relative; z-index: 101;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--main-shadow);
+      padding: 0 38px 0 0;
+      position: relative;
+      z-index: 101;
     }
-    .topbar .left-group { display: flex; align-items: center; gap: 22px; }
-    .wearly-logo { height: 54px; margin-left: 24px; border-radius: 50%; background: #fff; object-fit: cover; border: 2px solid #fff; }
-    .menu-toggle { width: 36px; height: 27px; flex-direction: column; cursor: pointer; display: flex; gap: 6px; margin-left: 6px;}
-    .menu-toggle span { height: 5px; background: #222; border-radius: 2px;}
+
+    .topbar .left-group {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+
+    .wearly-logo {
+      height: 54px;
+      margin-left: 24px;
+      border-radius: 50%;
+      background: #fff;
+      object-fit: cover;
+      border: 2px solid #fff;
+    }
+
+    .menu-toggle {
+      width: 36px;
+      height: 27px;
+      flex-direction: column;
+      cursor: pointer;
+      display: flex;
+      gap: 6px;
+      margin-left: 6px;
+    }
+
+    .menu-toggle span {
+      height: 5px;
+      background: #222;
+      border-radius: 2px;
+    }
+
     .brand-name {
-      position: absolute; left: 50%; transform: translateX(-50%);
-      font-size: 32px; font-weight: bold; color: #313131; letter-spacing: 2px;
-      background: #fff; padding: 7px 42px 6px 42px; border-radius: 16px;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 32px;
+      font-weight: bold;
+      color: #313131;
+      letter-spacing: 2px;
+      background: #fff;
+      padding: 7px 42px 6px 42px;
+      border-radius: 16px;
       box-shadow: var(--main-shadow);
     }
-    .avatar { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; border: 3px solid #fff; background: #fff; }
-    .sidebar {
-      background: var(--green-light); width: 180px; min-width: 180px; height: 100vh;
-      display: flex; flex-direction: column; gap: 6px; align-items: stretch; padding: 18px 0 0 0;
-      box-shadow: var(--main-shadow); border-radius: 0 28px 28px 0; transition: width 0.25s; z-index: 99;
+
+    .avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #fff;
+      background: #fff;
     }
-    .sidebar.hide { width: 70px !important; min-width: 70px !important; }
-    .sidebar.hide .sidebar-item span { display: none; }
-    .sidebar.hide .sidebar-item { justify-content: center; padding: 13px 6px;}
-    .sidebar-item { display: flex; align-items: center; gap: 14px; padding: 13px 18px; margin: 4px 8px; border-radius: 12px; color: #222; font-size: 17px; cursor: pointer; transition: background 0.2s, color 0.2s; text-decoration: none; }
-    .sidebar-item.active { background: #fff !important; color: var(--green-dark) !important; font-weight: 700; box-shadow: 0 2px 12px #e0f5e6;}
-    .sidebar-item.active span, .sidebar-item.active img { filter: none !important; color: var(--green-dark) !important; }
-    .sidebar-item:hover { background: #e0f5e6; color: var(--green-dark); font-weight: 600;}
-    .sidebar-item img { width: 30px; height: 30px;}
-    .sidebar-item span {font-size: 17px; font-weight: 500;}
-    .main { flex: 1; background: var(--yellow); padding: 46px 0 0 0; }
-    .content-header { width: 90%; margin: 0 auto 14px; display: flex; align-items: center; justify-content: space-between; }
-    .content-header h1 { font-size: 42px; font-weight: bold; color: #222; letter-spacing: 1px; margin: 0;}
-    .action-bar { display: flex; align-items: center; gap: 18px; }
-    .search-box { background: #e4f2ea; border-radius: 22px; display: flex; align-items: center; padding: 0 15px; }
-    .search-box input { border: none; background: transparent; outline: none; font-size: 17px; width: 140px; padding: 9px 0; }
-    .search-btn { background: none; border: none; font-size: 20px; cursor: pointer; color: #2e8656; margin-left: 6px; transition: color 0.2s; }
-    .search-btn:hover { color: #005640; }
-    .add-btn { background: #9be6c8; color: #222; border: none; border-radius: 22px; padding: 7px 30px; font-size: 18px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: background 0.2s;}
-    .add-btn .icon { font-size: 20px;}
-    .add-btn:hover { background: #7fd9b8;}
-    .table-wrap { overflow-x: auto; margin-top: 6px;}
-    table { width: 100%; border-collapse: collapse; background: #ffffff; border-radius: 0; overflow: hidden; font-size: 16px; font-weight: 500; color: #222; }
-    th, td { border: 1px solid #000; padding: 10px 8px; text-align: center;}
-    th { font-weight: 600; background: #ffffff; }
-    tbody tr.selected { background-color: #b7dfcc !important; font-weight: 600; }
-    tbody tr:hover { background-color: #d1e8d3; cursor: pointer; }
-    .bottom-action-bar { position: fixed; right: 40px; bottom: 36px; display: flex; gap: 28px; z-index: 999;}
-    .round-btn { background: #e4f2ea; color: #222; border: none; border-radius: 22px; padding: 13px 40px 13px 25px; font-size: 20px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 12px; box-shadow: 0 1px 7px #d7ebdf; transition: background 0.17s, color 0.17s;}
-    .edit-btn:hover { background: #c0f7d2; color: #228e5f;}
-    .delete-btn:hover { background: #ffe0e0; color: #b30000;}
+
+    .sidebar {
+      background: var(--green-light);
+      width: 180px;
+      min-width: 180px;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: stretch;
+      padding: 18px 0 0 0;
+      box-shadow: var(--main-shadow);
+      border-radius: 0 28px 28px 0;
+      transition: width 0.25s;
+      z-index: 99;
+    }
+
+    .sidebar.hide {
+      width: 70px !important;
+      min-width: 70px !important;
+    }
+
+    .sidebar.hide .sidebar-item span {
+      display: none;
+    }
+
+    .sidebar.hide .sidebar-item {
+      justify-content: center;
+      padding: 13px 6px;
+    }
+
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 13px 18px;
+      margin: 4px 8px;
+      border-radius: 12px;
+      color: #222;
+      font-size: 17px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      text-decoration: none;
+    }
+
+    .sidebar-item.active {
+      background: #fff !important;
+      color: var(--green-dark) !important;
+      font-weight: 700;
+      box-shadow: 0 2px 12px #e0f5e6;
+    }
+
+    .sidebar-item.active span,
+    .sidebar-item.active img {
+      filter: none !important;
+      color: var(--green-dark) !important;
+    }
+
+    .sidebar-item:hover {
+      background: #e0f5e6;
+      color: var(--green-dark);
+      font-weight: 600;
+    }
+
+    .sidebar-item img {
+      width: 30px;
+      height: 30px;
+    }
+
+    .sidebar-item span {
+      font-size: 17px;
+      font-weight: 500;
+    }
+
+    .main {
+      flex: 1;
+      background: var(--yellow);
+      padding: 46px 0 0 0;
+    }
+
+    .content-header {
+      width: 90%;
+      margin: 0 auto 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .content-header h1 {
+      font-size: 42px;
+      font-weight: bold;
+      color: #222;
+      letter-spacing: 1px;
+      margin: 0;
+    }
+
+    .action-bar {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .search-box {
+      background: #e4f2ea;
+      border-radius: 22px;
+      display: flex;
+      align-items: center;
+      padding: 0 15px;
+    }
+
+    .search-box input {
+      border: none;
+      background: transparent;
+      outline: none;
+      font-size: 17px;
+      width: 140px;
+      padding: 9px 0;
+    }
+
+    .search-btn {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: #2e8656;
+      margin-left: 6px;
+      transition: color 0.2s;
+    }
+
+    .search-btn:hover {
+      color: #005640;
+    }
+
+    .add-btn {
+      background: #9be6c8;
+      color: #222;
+      border: none;
+      border-radius: 22px;
+      padding: 7px 30px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+
+    .add-btn .icon {
+      font-size: 20px;
+    }
+
+    .add-btn:hover {
+      background: #7fd9b8;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin-top: 6px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #ffffff;
+      border-radius: 0;
+      overflow: hidden;
+      font-size: 16px;
+      font-weight: 500;
+      color: #222;
+    }
+
+    th,
+    td {
+      border: 1px solid #000;
+      padding: 10px 8px;
+      text-align: center;
+    }
+
+    th {
+      font-weight: 600;
+      background: #ffffff;
+    }
+
+    tbody tr.selected {
+      background-color: #b7dfcc !important;
+      font-weight: 600;
+    }
+
+    tbody tr:hover {
+      background-color: #d1e8d3;
+      cursor: pointer;
+    }
+
+    .bottom-action-bar {
+      position: fixed;
+      right: 40px;
+      bottom: 36px;
+      display: flex;
+      gap: 28px;
+      z-index: 999;
+    }
+
+    .round-btn {
+      background: #e4f2ea;
+      color: #222;
+      border: none;
+      border-radius: 22px;
+      padding: 13px 40px 13px 25px;
+      font-size: 20px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 1px 7px #d7ebdf;
+      transition: background 0.17s, color 0.17s;
+    }
+
+    .edit-btn:hover {
+      background: #c0f7d2;
+      color: #228e5f;
+    }
+
+    .delete-btn:hover {
+      background: #ffe0e0;
+      color: #b30000;
+    }
 
     /* ==== POPUP FORM THÊM SẢN PHẨM 2 CỘT ==== */
     .overlay-form {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.10); z-index: 9999;
-      display: flex; align-items: center; justify-content: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.10);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
+
     .add-form-popup {
       background: #fffaf8;
       border-radius: 18px;
@@ -84,6 +352,7 @@
       flex-direction: column;
       align-items: center;
     }
+
     .add-form-title {
       font-size: 2.2rem;
       font-weight: bold;
@@ -92,6 +361,7 @@
       letter-spacing: 1px;
       text-align: center;
     }
+
     .add-form-content-2col {
       display: flex;
       width: 100%;
@@ -99,17 +369,20 @@
       margin-bottom: 20px;
       justify-content: center;
     }
+
     .add-form-content-2col .col {
       display: flex;
       flex-direction: column;
       gap: 17px;
       flex: 1 1 0;
     }
+
     .add-form-row {
       display: flex;
       align-items: center;
       gap: 10px;
     }
+
     .add-form-row label {
       width: 120px;
       font-size: 1.1rem;
@@ -118,6 +391,7 @@
       text-align: left;
       flex-shrink: 0;
     }
+
     .add-form-field {
       flex: 1 1 0;
       min-width: 0;
@@ -130,8 +404,17 @@
       outline: none;
       transition: background 0.14s;
     }
-    .add-form-field:focus { background: #24a273; color: #fff;}
-    .add-form-field[readonly] { background: #d4ecdd; color: #222;}
+
+    .add-form-field:focus {
+      background: #24a273;
+      color: #fff;
+    }
+
+    .add-form-field[readonly] {
+      background: #d4ecdd;
+      color: #222;
+    }
+
     .add-form-btns {
       width: 100%;
       display: flex;
@@ -139,6 +422,7 @@
       gap: 50px;
       margin-top: 18px;
     }
+
     .add-form-btn {
       background: #b7dfcc;
       color: #1b1b1b;
@@ -151,18 +435,35 @@
       transition: background 0.16s, color 0.16s;
       box-shadow: 0 2px 8px #d3ebdf96;
     }
+
     .add-form-btn.confirm {
       background: #99d8bb;
       color: #055b32;
     }
-    .add-form-btn:hover { background: #8cd5b0; color: #0a3e28; }
+
+    .add-form-btn:hover {
+      background: #8cd5b0;
+      color: #0a3e28;
+    }
+
     @media (max-width: 820px) {
-      .add-form-popup { min-width: 98vw; padding: 7vw 2vw;}
-      .add-form-content-2col { flex-direction: column; gap: 14px;}
-      .add-form-btns { gap: 20px;}
+      .add-form-popup {
+        min-width: 98vw;
+        padding: 7vw 2vw;
+      }
+
+      .add-form-content-2col {
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .add-form-btns {
+        gap: 20px;
+      }
     }
   </style>
 </head>
+
 <body>
   <!-- TOPBAR -->
   <div class="topbar">
@@ -196,7 +497,7 @@
         <img src="{{ asset('img/stock_out.png') }}"><span>Quản lý xuất kho</span>
       </a>
       <a href="#" class="sidebar-item">
-        <img src="{{ asset('img/inventory_report') }}"><span>Báo cáo thống kê</span>
+        <img src="{{ asset('img/inventory_report.png') }}"><span>Báo cáo thống kê</span>
       </a>
     </div>
     <!-- MAIN -->
@@ -272,6 +573,7 @@
     function toggleSidebar() {
       document.getElementById('sidebar').classList.toggle('hide');
     }
+
     // Tìm kiếm realtime
     document.getElementById('searchInput').addEventListener('keyup', function() {
       let input = this.value.toLowerCase();
@@ -280,6 +582,7 @@
         row.style.display = row.textContent.toLowerCase().includes(input) ? '' : 'none';
       });
     });
+
     // Chọn dòng
     const tbody = document.querySelector('#productTable tbody');
     let selectedRow = null;
@@ -296,62 +599,249 @@
       showAddForm();
     };
 
+    // Hàm hiện popup (thông báo/thành công/xác nhận)
+    function showPopup(type, message, onConfirm, onCancel) {
+      const popupRoot = document.getElementById('popup-root') || (() => {
+        const d = document.createElement('div');
+        d.id = 'popup-root';
+        document.body.appendChild(d);
+        return d;
+      })();
+      popupRoot.innerHTML = '';
+      const overlay = document.createElement('div');
+      overlay.style = `
+      position:fixed;left:0;top:0;width:100vw;height:100vh;
+      background:rgba(0,0,0,0.01);z-index:99999;
+      display:flex;align-items:center;justify-content:center;`;
+
+      let box = document.createElement('div');
+      box.style = `
+      min-width:310px;max-width:97vw;background:#6fc6a1;border-radius:20px;
+      box-shadow:0 5px 18px #b6dfc499;position:relative;padding:36px 28px 32px 28px;
+      display:flex;flex-direction:column;align-items:center;gap:18px;animation:popIn .2s;`;
+      box.innerHTML = `
+      <button class="popup-close-btn" style="position:absolute;top:11px;right:18px;background:none;border:none;font-size:1.3em;cursor:pointer;color:#fff;" title="Đóng">&times;</button>
+      <div style="color:#fff;font-size:1.27em;text-align:center;margin-bottom:6px;">${message}</div>
+    `;
+      // Đóng popup khi ấn X
+      box.querySelector('.popup-close-btn').onclick = () => popupRoot.innerHTML = '';
+
+      // Xác nhận xoá
+      if (type === 'confirm') {
+        let btnGroup = document.createElement('div');
+        btnGroup.style = 'display:flex;gap:16px;justify-content:center;';
+        btnGroup.innerHTML = `
+        <button style="background:#faf3dd;color:#055b32;border:none;border-radius:11px;padding:7px 22px;font-size:1em;font-weight:600;cursor:pointer;">Xác nhận</button>
+        <button style="background:#faf3dd;color:#b30000;border:none;border-radius:11px;padding:7px 22px;font-size:1em;font-weight:600;cursor:pointer;">Huỷ</button>
+      `;
+        btnGroup.children[0].onclick = function() {
+          popupRoot.innerHTML = '';
+          if (onConfirm) onConfirm();
+        };
+        btnGroup.children[1].onclick = function() {
+          popupRoot.innerHTML = '';
+          if (onCancel) onCancel();
+        };
+        box.appendChild(btnGroup);
+      }
+      overlay.appendChild(box);
+      popupRoot.appendChild(overlay);
+    }
+    // --- Nút SỬA ---
+    document.querySelector('.edit-btn').onclick = function() {
+      if (!selectedRow) {
+        showPopup('alert', 'Vui lòng chọn sản phẩm để sửa!');
+        return;
+      }
+      // Lấy dữ liệu dòng được chọn
+      const tds = selectedRow.querySelectorAll('td');
+      const values = [...tds].map(td => td.textContent);
+
+      showEditForm(values);
+    };
+
+    function showEditForm(values) {
+      const addFormRoot = document.getElementById('addFormRoot');
+      addFormRoot.innerHTML = `
+    <div class="overlay-form" id="overlayForm">
+      <form class="add-form-popup" id="editForm" autocomplete="off">
+        <div class="add-form-title">Sửa sản phẩm</div>
+        <div class="add-form-content-2col">
+          <div class="col">
+            <div class="add-form-row">
+              <label>Mã sản phẩm</label>
+              <input class="add-form-field" name="code" value="${values[0] || ''}" readonly />
+            </div>
+            <div class="add-form-row">
+              <label>Tên sản phẩm</label>
+              <input class="add-form-field" name="name" value="${values[1] || ''}" required />
+            </div>
+            <div class="add-form-row">
+              <label>Số lượng</label>
+              <input class="add-form-field" name="qty" type="number" min="0" value="${values[2] || ''}" required />
+            </div>
+            <div class="add-form-row">
+              <label>Đơn giá</label>
+              <input class="add-form-field" name="price" type="text" value="${values[3] || ''}" required />
+            </div>
+            <div class="add-form-row">
+              <label>Ngày thêm</label>
+              <input class="add-form-field" name="date" type="date" value="${convertDateForInput(values[7])}" required/>
+            </div>
+          </div>
+          <div class="col">
+            <div class="add-form-row">
+              <label>Kích cỡ</label>
+              <input class="add-form-field" name="size" value="${values[6] || ''}" required />
+            </div>
+            <div class="add-form-row">
+              <label>Chất liệu</label>
+              <input class="add-form-field" name="material" value="${values[4] || ''}" required />
+            </div>
+            <div class="add-form-row">
+              <label>Loại sản phẩm</label>
+              <input class="add-form-field" name="type" value="${values[5] || ''}" required />
+            </div>
+            <div class="add-form-row">
+              <label>Ghi chú</label>
+              <input class="add-form-field" name="note" value="${values[8] || ''}" />
+            </div>
+          </div>
+        </div>
+        <div class="add-form-btns">
+          <button type="button" class="add-form-btn" id="cancelEditBtn">Quay lại</button>
+          <button type="submit" class="add-form-btn confirm">Xác nhận</button>
+        </div>
+      </form>
+    </div>
+  `;
+
+      // Xử lý quay lại (đóng form)
+      document.getElementById('cancelEditBtn').onclick = function() {
+        addFormRoot.innerHTML = '';
+      };
+      // Đóng khi click ra ngoài
+      document.getElementById('overlayForm').onclick = function(e) {
+        if (e.target === this) addFormRoot.innerHTML = '';
+      };
+      // Xác nhận sửa sản phẩm
+      document.getElementById('editForm').onsubmit = function(e) {
+        e.preventDefault();
+        // Hiện popup xác nhận sửa
+        showPopup('confirm', 'Bạn có chắc muốn sửa không?', function() {
+          let fd = new FormData(document.getElementById('editForm'));
+          let arr = [
+            fd.get('code'),
+            fd.get('name'),
+            fd.get('qty'),
+            fd.get('price'),
+            fd.get('material'),
+            fd.get('type'),
+            fd.get('size'),
+            fd.get('date'),
+            fd.get('note')
+          ];
+          // Ghi lại dữ liệu vào dòng đã chọn
+          const tds = selectedRow.querySelectorAll('td');
+          tds[0].textContent = arr[0];
+          tds[1].textContent = arr[1];
+          tds[2].textContent = arr[2];
+          tds[3].textContent = arr[3];
+          tds[4].textContent = arr[4];
+          tds[5].textContent = arr[5];
+          tds[6].textContent = arr[6];
+          tds[7].textContent = arr[7];
+          tds[8].textContent = arr[8];
+          addFormRoot.innerHTML = '';
+          showPopup('success', 'Sửa thành công!');
+          setTimeout(() => document.getElementById('popup-root').innerHTML = '', 1300);
+        });
+      };
+    }
+
+    // Chuyển ngày từ bảng (dạng 2/25/2025) về dạng input type="date" (2025-02-25)
+    function convertDateForInput(str) {
+      if (!str) return '';
+      let parts = str.split('/');
+      if (parts.length === 3) {
+        // Nếu là MM/DD/YYYY
+        return `${parts[2]}-${parts[0].padStart(2, '0')}-${parts[1].padStart(2, '0')}`;
+      }
+      // Nếu là YYYY-MM-DD hoặc đã đúng thì trả lại luôn
+      return str;
+    }
+
+
+    // --- Nút XÓA ---
+    document.getElementById('deleteBtn').onclick = function() {
+      if (!selectedRow) {
+        showPopup('alert', 'Vui lòng chọn sản phẩm để xoá!');
+        return;
+      }
+      showPopup('confirm', 'Bạn có chắc muốn xoá không?', function() {
+        selectedRow.parentNode.removeChild(selectedRow);
+        selectedRow = null;
+        showPopup('success', 'Xoá thành công!');
+        setTimeout(() => document.getElementById('popup-root').innerHTML = '', 1200);
+      });
+    };
+
     // FORM POPUP THÊM SẢN PHẨM (2 CỘT)
     function showAddForm() {
       const addFormRoot = document.getElementById('addFormRoot');
       addFormRoot.innerHTML = `
-        <div class="overlay-form" id="overlayForm">
-          <form class="add-form-popup" id="addForm" autocomplete="off">
-            <div class="add-form-title">Thêm sản phẩm</div>
-            <div class="add-form-content-2col">
-              <div class="col">
-                <div class="add-form-row">
-                  <label>Mã sản phẩm</label>
-                  <input class="add-form-field" name="code" value="SP0001" readonly />
-                </div>
-                <div class="add-form-row">
-                  <label>Tên sản phẩm</label>
-                  <input class="add-form-field" name="name" required />
-                </div>
-                <div class="add-form-row">
-                  <label>Số lượng</label>
-                  <input class="add-form-field" name="qty" type="number" min="0" required />
-                </div>
-                <div class="add-form-row">
-                  <label>Đơn giá</label>
-                  <input class="add-form-field" name="price" type="text" required />
-                </div>
-                <div class="add-form-row">
-                  <label>Ngày thêm</label>
-                  <input class="add-form-field" name="date" type="date" value="2025-05-02" style="width: 100%;" required/>
-                </div>
+      <div class="overlay-form" id="overlayForm">
+        <form class="add-form-popup" id="addForm" autocomplete="off">
+          <div class="add-form-title">Thêm sản phẩm</div>
+          <div class="add-form-content-2col">
+            <div class="col">
+              <div class="add-form-row">
+                <label>Mã sản phẩm</label>
+                <input class="add-form-field" name="code" value="SP0001" readonly />
               </div>
-              <div class="col">
-                <div class="add-form-row">
-                  <label>Kích cỡ</label>
-                  <input class="add-form-field" name="size" required />
-                </div>
-                <div class="add-form-row">
-                  <label>Chất liệu</label>
-                  <input class="add-form-field" name="material" required />
-                </div>
-                <div class="add-form-row">
-                  <label>Loại sản phẩm</label>
-                  <input class="add-form-field" name="type" required />
-                </div>
-                <div class="add-form-row">
-                  <label>Ghi chú</label>
-                  <input class="add-form-field" name="note" />
-                </div>
+              <div class="add-form-row">
+                <label>Tên sản phẩm</label>
+                <input class="add-form-field" name="name" required />
+              </div>
+              <div class="add-form-row">
+                <label>Số lượng</label>
+                <input class="add-form-field" name="qty" type="number" min="0" required />
+              </div>
+              <div class="add-form-row">
+                <label>Đơn giá</label>
+                <input class="add-form-field" name="price" type="text" required />
+              </div>
+              <div class="add-form-row">
+                <label>Ngày thêm</label>
+                <input class="add-form-field" name="date" type="date" value="2025-05-02" style="width: 100%;" required/>
               </div>
             </div>
-            <div class="add-form-btns">
-              <button type="button" class="add-form-btn" id="cancelBtn">Quay lại</button>
-              <button type="submit" class="add-form-btn confirm">Xác nhận</button>
+            <div class="col">
+              <div class="add-form-row">
+                <label>Kích cỡ</label>
+                <input class="add-form-field" name="size" required />
+              </div>
+              <div class="add-form-row">
+                <label>Chất liệu</label>
+                <input class="add-form-field" name="material" required />
+              </div>
+              <div class="add-form-row">
+                <label>Loại sản phẩm</label>
+                <input class="add-form-field" name="type" required />
+              </div>
+              <div class="add-form-row">
+                <label>Ghi chú</label>
+                <input class="add-form-field" name="note" />
+              </div>
             </div>
-          </form>
-        </div>
-      `;
+          </div>
+          <div class="add-form-btns">
+            <button type="button" class="add-form-btn" id="cancelBtn">Quay lại</button>
+            <button type="submit" class="add-form-btn confirm">Xác nhận</button>
+          </div>
+        </form>
+      </div>
+    `;
       // Xử lý quay lại (đóng form)
       document.getElementById('cancelBtn').onclick = function() {
         addFormRoot.innerHTML = '';
@@ -366,31 +856,46 @@
         let fd = new FormData(this);
         let tr = document.createElement('tr');
         tr.innerHTML = `
-          <td>${fd.get('code')}</td>
-          <td>${fd.get('name')}</td>
-          <td>${fd.get('qty')}</td>
-          <td>${fd.get('price')}</td>
-          <td>${fd.get('material')}</td>
-          <td>${fd.get('type')}</td>
-          <td>${fd.get('size')}</td>
-          <td>${fd.get('date')}</td>
-          <td>${fd.get('note')}</td>
-        `;
+        <td>${fd.get('code')}</td>
+        <td>${fd.get('name')}</td>
+        <td>${fd.get('qty')}</td>
+        <td>${fd.get('price')}</td>
+        <td>${fd.get('material')}</td>
+        <td>${fd.get('type')}</td>
+        <td>${fd.get('size')}</td>
+        <td>${fd.get('date')}</td>
+        <td>${fd.get('note')}</td>
+      `;
         document.querySelector('#productTable tbody').appendChild(tr);
         addFormRoot.innerHTML = '';
+        showPopup('success', 'Thêm thành công!');
+        setTimeout(() => document.getElementById('popup-root').innerHTML = '', 1200);
       };
     }
-    // Sidebar active
+
+    // Sidebar active (giữ lại trạng thái chọn)
     document.querySelectorAll('.sidebar-item').forEach(item => {
       item.addEventListener('click', function(e) {
         document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
         this.classList.add('active');
         // Nếu là Trang chủ thì về /
-        if(this.innerText.trim() === 'Trang chủ') {
+        if (this.innerText.trim() === 'Trang chủ') {
           window.location.href = '/';
         }
       });
     });
+
+    // Optional: hiệu ứng popup
+    const style = document.createElement('style');
+    style.innerHTML = `
+    @keyframes popIn {
+      from { transform: scale(.85); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+  `;
+    document.head.appendChild(style);
   </script>
+
 </body>
+
 </html>
