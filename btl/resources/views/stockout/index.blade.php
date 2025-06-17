@@ -442,24 +442,105 @@
       </div>
     </div>
   </div>
-  <script>
+   <script>
+    // Sidebar thu gọn/mở rộng
     function toggleSidebar() {
       document.getElementById('sidebar').classList.toggle('hide');
     }
     // Tìm kiếm realtime
     document.getElementById('searchInput').addEventListener('keyup', function() {
       let input = this.value.toLowerCase();
-      let trs = document.querySelectorAll('#stockoutTable tbody tr');
+      let trs = document.querySelectorAll('#productTable tbody tr');
       trs.forEach(row => {
         row.style.display = row.textContent.toLowerCase().includes(input) ? '' : 'none';
       });
     });
-    // Xóa dòng khi bấm Xóa
-    document.querySelectorAll('.delete-btn').forEach(btn => {
-      btn.addEventListener('click', function() {
-        let tr = this.closest('tr');
-        if (confirm('Bạn có chắc chắn muốn xoá?')) {
-          tr.remove();
+    // Chọn dòng
+    const tbody = document.querySelector('#productTable tbody');
+    let selectedRow = null;
+    tbody.addEventListener('click', function(e) {
+      let tr = e.target.closest('tr');
+      if (!tr) return;
+      tbody.querySelectorAll('tr').forEach(row => row.classList.remove('selected'));
+      tr.classList.add('selected');
+      selectedRow = tr;
+    });
+    // ==== POPUP FUNCTION ====
+    function showPopup(type, onConfirm, onCancel) {
+      // type: 'confirm' | 'success'
+      const popupRoot = document.getElementById('popup-root');
+      popupRoot.innerHTML = ''; // clear
+      const overlay = document.createElement('div');
+      overlay.className = 'popup-overlay';
+      let popup = document.createElement('div');
+      popup.className = 'popup';
+      let closeBtn = document.createElement('button');
+      closeBtn.className = 'close-btn';
+      closeBtn.innerHTML = '&times;';
+      closeBtn.onclick = () => {
+        popupRoot.innerHTML = '';
+        if (onCancel) onCancel();
+      };
+      popup.appendChild(closeBtn);
+      if (type === 'confirm') {
+        let title = document.createElement('div');
+        title.className = 'popup-title';
+        title.innerText = 'Bạn có chắc muốn xóa\nkhông?';
+        popup.appendChild(title);
+        let actions = document.createElement('div');
+        actions.className = 'popup-actions';
+        let okBtn = document.createElement('button');
+        okBtn.innerText = 'Xác nhận';
+        okBtn.onclick = () => {
+          popupRoot.innerHTML = '';
+          if (onConfirm) onConfirm();
+        };
+        let cancelBtn = document.createElement('button');
+        cancelBtn.innerText = 'Huỷ';
+        cancelBtn.onclick = () => {
+          popupRoot.innerHTML = '';
+          if (onCancel) onCancel();
+        };
+        actions.appendChild(okBtn);
+        actions.appendChild(cancelBtn);
+        popup.appendChild(actions);
+      } else if (type === 'success') {
+        let title = document.createElement('div');
+        title.className = 'popup-title';
+        title.innerText = 'Xoá thành công!';
+        popup.appendChild(title);
+      }
+      overlay.appendChild(popup);
+      popupRoot.appendChild(overlay);
+    }
+    // XOÁ SẢN PHẨM
+    document.getElementById('deleteBtn').addEventListener('click', function() {
+      if (!selectedRow) {
+        showPopup('success');
+        document.querySelector('.popup-title').innerText = 'Vui lòng chọn sản phẩm!';
+        setTimeout(() => {
+          document.getElementById('popup-root').innerHTML = '';
+        }, 1300);
+        return;
+      }
+      // Popup xác nhận
+      showPopup('confirm', function() {
+        selectedRow.parentNode.removeChild(selectedRow);
+        selectedRow = null;
+        showPopup('success');
+        setTimeout(() => {
+          document.getElementById('popup-root').innerHTML = '';
+        }, 1500);
+      });
+    });
+    // Sidebar active
+    document.querySelectorAll('.sidebar-item').forEach(item => {
+      item.addEventListener('click', function(e) {
+        document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+        this.classList.add('active');
+        // Nếu là Trang chủ thì về /
+        if(this.innerText.trim() === 'Trang chủ') {
+          window.location.href = '/';
         }
       });
     });
