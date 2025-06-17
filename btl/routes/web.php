@@ -25,3 +25,10 @@ Route::get('/producer', function () { return view('producer.index'); })->name('p
 Route::get('/stockin', function () { return view('stockin.index'); })->name('stockin');
 Route::get('/stockout', function () { return view('stockout.index'); })->name('stockout');
 Route::get('/inventory', function () { return view('inventory.index'); })->name('inventory');
+Route::get('/stockin/create', function () { 
+    return view('stockin.create'); 
+})->name('stockin.create');
+Route::post('/stockin/store', function () {
+    // Xử lý lưu dữ liệu ở đây (hoặc redirect về index)
+    return redirect()->route('stockin');
+})->name('stockin.store');

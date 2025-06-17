@@ -60,10 +60,8 @@
       left: 50%; transform: translateX(-50%);
       font-size: 32px; font-weight: bold;
       color: #313131; letter-spacing: 2px;
-      background: #fff;
       padding: 7px 42px 6px 42px;
       border-radius: 16px;
-      box-shadow: var(--main-shadow);
     }
     .avatar {
       width: 52px; height: 52px;
@@ -360,7 +358,7 @@
         <a href="#" class="sidebar-item"><img src="{{ asset('img/producer.png') }}"><span>Quản lý nhà cung cấp</span></a>
         <a href="#" class="sidebar-item"><img src="{{ asset('img/stock_in.png') }}"><span>Quản lý nhập kho</span></a>
         <a href="#" class="sidebar-item active"><img src="{{ asset('img/Stock_out.png') }}"><span>Quản lý xuất kho</span></a>
-        <a href="#" class="sidebar-item"><img src="{{ asset('img/home.png') }}"><span>Báo cáo thống kê</span></a>
+        <a href="#" class="sidebar-item"><img src="{{ asset('img/inventory_report.png') }}"><span>Báo cáo thống kê</span></a>
       </div>
       <div class="main">
         <div class="content-header">
