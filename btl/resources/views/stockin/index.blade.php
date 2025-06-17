@@ -358,8 +358,8 @@
         <a href="/" class="sidebar-item"><img src="{{ asset('img/home.png') }}"><span>Trang chủ</span></a>
         <a href="#" class="sidebar-item"><img src="{{ asset('img/product.png') }}"><span>Quản lý sản phẩm</span></a>
         <a href="#" class="sidebar-item"><img src="{{ asset('img/producer.png') }}"><span>Quản lý nhà cung cấp</span></a>
-        <a href="#" class="sidebar-item"><img src="{{ asset('img/stock_in.png') }}"><span>Quản lý nhập kho</span></a>
-        <a href="#" class="sidebar-item active"><img src="{{ asset('img/Stock_out.png') }}"><span>Quản lý xuất kho</span></a>
+        <a href="#" class="sidebar-item active"><img src="{{ asset('img/stock_in.png') }}"><span>Quản lý nhập kho</span></a>
+        <a href="#" class="sidebar-item"><img src="{{ asset('img/stock_out.png') }}"><span>Quản lý xuất kho</span></a>
         <a href="#" class="sidebar-item"><img src="{{ asset('img/home.png') }}"><span>Báo cáo thống kê</span></a>
       </div>
       <div class="main">
@@ -368,7 +368,10 @@
           <div class="action-bar">
             <div class="search-box">
               <input type="text" placeholder="Tìm kiếm" id="searchInput">
-              <button class="search-btn" title="Tìm kiếm">&#128269;</button>
+              <button class="search-btn" title="Tìm kiếm">
+  <img src="{{ asset('img/search.png') }}" alt="Tìm kiếm" style="width:24px;height:24px;">
+</button>
+
             </div>
 <button type="button" class="add-btn" id="addStockinBtn">
   Thêm
@@ -384,6 +387,7 @@
                   <th>Mã phiếu xuất</th>
                   <th>Ngày xuất</th>
                   <th>Mã nhân viên</th>
+                  <th>Mã nhà cung cấp</th>
                   <th>Tổng sản phẩm</th>
                   <th>Tổng tiền</th>
                   <th>Chức năng</th>
@@ -394,6 +398,7 @@
                   <td>MPX001</td>
                   <td>05/06/2025</td>
                   <td>NV003</td>
+                  <td>MCC003</td>
                   <td>3</td>
                   <td>4.370.000đ</td>
                   <td>
@@ -405,6 +410,7 @@
                   <td>MPX002</td>
                   <td>08/06/2025</td>
                   <td>NV003</td>
+                  <td>MCC003</td>
                   <td>1</td>
                   <td>799.000đ</td>
                   <td>
