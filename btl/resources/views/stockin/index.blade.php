@@ -4,13 +4,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quản Lý Sản Phẩm - WEARLY</title>
+  <title>Quản lý xuất kho - WEARLY</title>
   <style>
     :root {
       --green: #b7dfcc;
       --yellow: #faf3dd;
       --table-head: #a8d5ba;
-      --main-radius: 18px;
       --main-shadow: 0 2px 14px 2px #dbe8e0;
     }
 
@@ -23,7 +22,7 @@
 
     * {
       box-sizing: border-box;
-      font-family: 'Be Vietnam Pro', sans-serif;
+      font-family: 'Be Vietnam Pro', Arial, sans-serif;
     }
 
     .container {
@@ -97,7 +96,6 @@
       min-height: 0;
     }
 
-    /* Sidebar vuông */
     .sidebar {
       background: var(--green);
       width: 180px;
@@ -108,7 +106,6 @@
       padding: 18px 0 0 0;
       box-shadow: var(--main-shadow);
       align-items: stretch;
-      /* Không bo góc */
       border-radius: 0;
       transition: width 0.25s;
     }
@@ -120,7 +117,6 @@
       padding: 13px 18px;
       margin: 4px 8px;
       border-radius: 0;
-      /* Vuông góc */
       color: #222;
       font-size: 17px;
       cursor: pointer;
@@ -190,10 +186,11 @@
     }
 
     .content-header h1 {
-      font-size: 34px;
+      font-size: 42px;
       font-weight: bold;
       color: #222;
       margin: 0;
+      letter-spacing: 1px;
     }
 
     .action-bar {
@@ -203,11 +200,11 @@
     }
 
     .search-box {
-      background: #e4f2ea;
+      background: #b7dfcc;
       border-radius: 22px;
       display: flex;
       align-items: center;
-      padding: 0 15px;
+      padding: 0 18px;
     }
 
     .search-box input {
@@ -222,11 +219,13 @@
     .search-btn {
       background: none;
       border: none;
-      font-size: 20px;
+      font-size: 22px;
       cursor: pointer;
       color: #2e8656;
       margin-left: 6px;
       transition: color 0.2s;
+      display: flex;
+      align-items: center;
     }
 
     .search-btn:hover {
@@ -234,26 +233,28 @@
     }
 
     .add-btn {
-      background: #9be6c8;
+      background: #b7dfcc;
       color: #222;
       border: none;
       border-radius: 22px;
       padding: 7px 30px;
       font-size: 18px;
       font-weight: 600;
-      cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 6px;
-      transition: background 0.2s;
+      gap: 8px;
+      box-shadow: 0 1px 4px #e7f2ec7a;
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s;
     }
 
     .add-btn .icon {
-      font-size: 20px;
+      font-size: 21px;
     }
 
     .add-btn:hover {
-      background: #7fd9b8;
+      background: #a8d5ba;
+      color: #198754;
     }
 
     .table-wrap {
@@ -286,38 +287,39 @@
       border-bottom: 3px solid #b7dfcc;
     }
 
-    /* Nút Sửa/Xóa UI */
-    .action-cell {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .func-btn {
-      background: #fff;
-      border: 1.5px solid #24a273;
-      color: #24a273;
-      padding: 4px 15px;
-      border-radius: 8px;
-      font-size: 15px;
-      cursor: pointer;
-      display: flex;
+    /* Nút Xem/Xóa chuẩn Figma */
+    .action-btn {
+      display: inline-flex;
       align-items: center;
       gap: 6px;
-      transition: background 0.12s, color 0.12s, border 0.12s;
+      background: #b7dfcc;
+      color: #222;
+      border: none;
+      border-radius: 22px;
+      padding: 7px 22px;
+      font-size: 17px;
       font-weight: 500;
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s;
+      box-shadow: 0 1px 4px #e7f2ec7a;
+      outline: none;
     }
 
-    .func-btn:hover {
-      background: #e4f2ea;
-      color: #fff;
-      border: 1.5px solid #228e5f;
+    .action-btn .icon {
+      font-size: 19px;
+      margin-left: 6px;
+      display: flex;
+      align-items: center;
     }
 
-    .func-btn img {
-      width: 18px;
-      height: 18px;
+    .action-btn:hover {
+      background: #a8d5ba;
+      color: #198754;
+    }
+
+    .action-btn.delete-btn:hover {
+      color: #c11a0a;
+      background: #f9dbdb;
     }
 
     @media (max-width: 1200px) {
@@ -333,100 +335,108 @@
         font-size: 20px;
         padding: 6px 14px;
       }
+
+      th,
+      td {
+        font-size: 13px;
+        padding: 9px 6px;
+      }
     }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <div class="topbar">
-      <div class="left-group">
-        <img src="{{ asset('img/wearly_logo.png') }}" alt="Logo" class="wearly-logo">
-        <div class="menu-toggle" onclick="toggleSidebar()">
-          <span></span><span></span><span></span>
-        </div>
+    <!-- TOPBAR -->
+   <div class="topbar">
+    <div class="left-group">
+      <img src="{{ asset('img/wearly_logo.png') }}" class="wearly-logo" alt="Logo">
+      <div class="menu-toggle" onclick="toggleSidebar()">
+        <span></span>
+        <span></span>
+        <span></span>
       </div>
-      <div class="brand-name">WEARLY</div>
-      <img src="{{ asset('img/user_avt.png') }}" class="avatar" alt="Avatar">
     </div>
+    <div class="brand-name">WEARLY</div>
+    <img src="{{ asset('img/user_avt.png') }}" class="avatar" alt="Avatar">
+  </div>
     <div class="layout">
-      <!-- Sidebar dùng lại cho mọi trang -->
-      <div class="sidebar" id="sidebar">
-        <a href="{{ route('home') }}"
-          class="sidebar-item {{ request()->is('/') ? 'active' : '' }}">
-          <img src="{{ asset('img/home.png') }}"><span>Trang chủ</span>
-        </a>
-        <a href="{{ route('products') }}"
-          class="sidebar-item {{ request()->is('products') ? 'active' : '' }}">
-          <img src="{{ asset('img/product.png') }}"><span>Quản lý sản phẩm</span>
-        </a>
-        <a href="{{ route('producer') }}"
-          class="sidebar-item {{ request()->is('producer') ? 'active' : '' }}">
-          <img src="{{ asset('img/producer.png') }}"><span>Quản lý nhà cung cấp</span>
-        </a>
-        <a href="{{ route('stockin') }}"
-          class="sidebar-item {{ request()->is('stockin') ? 'active' : '' }}">
-          <img src="{{ asset('img/stock_in.png') }}"><span>Quản lý nhập kho</span>
-        </a>
-        <a href="{{ route('stockout') }}"
-          class="sidebar-item {{ request()->is('stockout') ? 'active' : '' }}">
-          <img src="{{ asset('img/stock_out.png') }}"><span>Quản lý xuất kho</span>
-        </a>
-        <a href="{{ route('inventory') }}"
-          class="sidebar-item {{ request()->is('inventory') ? 'active' : '' }}">
-          <img src="{{ asset('img/inventory_report.png') }}"><span>Báo cáo thống kê</span>
-        </a>
-      </div>
-      <!-- Nội dung chính -->
+      <!-- SIDEBAR -->
+   <div class="sidebar" id="sidebar">
+      <a href="/" class="sidebar-item active">
+        <img src="{{ asset('img/home.png') }}"><span>Trang chủ</span>
+      </a>
+      <a href="#" class="sidebar-item">
+        <img src="{{ asset('img/product.png') }}"><span>Quản lý sản phẩm</span>
+      </a>
+      <a href="#" class="sidebar-item">
+        <img src="{{ asset('img/producer.png') }}"><span>Quản lý nhà cung cấp</span>
+      </a>
+      <a href="#" class="sidebar-item">
+        <img src="{{ asset('img/stock_in.png') }}"><span>Quản lý nhập kho</span>
+      </a>
+      <a href="#" class="sidebar-item">
+        <img src="{{ asset('img/Stock_out.png') }}"><span>Quản lý xuất kho</span>
+      </a>
+      <a href="#" class="sidebar-item">
+        <img src="{{ asset('img/home.png') }}"><span>Báo cáo thống kê</span>
+      </a>
+    </div>
+      <!-- MAIN -->
       <div class="main">
         <div class="content-box">
           <div class="content-header">
-            <h1>Quản Lý Sản Phẩm</h1>
+            <h1>Quản lý nhập kho</h1>
             <div class="action-bar">
               <div class="search-box">
                 <input type="text" placeholder="Tìm kiếm" id="searchInput">
-                <button class="search-btn" title="Tìm kiếm">&#128269;</button>
+                <button class="search-btn" title="Tìm kiếm">
+                  <span class="icon">🔍</span>
+                </button>
               </div>
-              <button class="add-btn"><span class="icon">➕</span>Thêm</button>
+              <button class="add-btn">
+                Thêm
+                <span class="icon">➕</span>
+              </button>
             </div>
           </div>
           <div class="table-wrap">
-            <table id="stockinTable">
+            <table id="stockoutTable">
               <thead>
                 <tr>
-                  <th>Mã phiếu nhập</th>
-                  <th>Ngày nhập</th>
+                  <th>Mã phiếu xuất</th>
+                  <th>Ngày xuất</th>
                   <th>Mã nhân viên</th>
-                  <th>Nhà cung cấp</th>
+                  <th>Mã nhà cung cấp</th>
+
                   <th>Tổng sản phẩm</th>
-                  <th>Tổng giá trị</th>
+                  <th>Tổng tiền</th>
                   <th>Chức năng</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>MPN001</td>
-                  <td>8/06/2025</td>
-                  <td>NV001</td>
-                  <td>MCC003</td>
+                  <td>MPX001</td>
+                  <td>05/06/2025</td>
+                  <td>NV003</td>
+                  <td>MCC001</td>
                   <td>3</td>
-                  <td>1.500.000đ</td>
+                  <td>4.370.000đ</td>
                   <td>
-                    <button class="func-btn">Xem <span class="icon">👁️</span></button>
-                    <button class="func-btn">Xoá <span class="icon">🗑️</span></button>
+                    <button class="action-btn"><span>Xem</span> <span class="icon">👁️</span></button>
+                    <button class="action-btn delete-btn"><span>Xoá</span> <span class="icon">🗑️</span></button>
                   </td>
                 </tr>
                 <tr>
-                  <td>MPN002</td>
-                  <td>9/06/2025</td>
-                  <td>NV002</td>
+                  <td>MPX002</td>
+                  <td>08/06/2025</td>
+                  <td>NV003</td>
                   <td>MCC002</td>
                   <td>1</td>
-                  <td>800.000đ
-                  </td>
+                  <td>799.000đ</td>
                   <td>
-                    <button class="func-btn">Xem <span class="icon">👁️</span></button>
-                    <button class="func-btn">Xoá <span class="icon">🗑️</span></button>
+                    <button class="action-btn"><span>Xem</span> <span class="icon">👁️</span></button>
+                    <button class="action-btn delete-btn"><span>Xoá</span> <span class="icon">🗑️</span></button>
                   </td>
                 </tr>
               </tbody>
@@ -443,9 +453,18 @@
     // Tìm kiếm realtime
     document.getElementById('searchInput').addEventListener('keyup', function() {
       let input = this.value.toLowerCase();
-      let trs = document.querySelectorAll('#productTable tbody tr');
+      let trs = document.querySelectorAll('#stockoutTable tbody tr');
       trs.forEach(row => {
         row.style.display = row.textContent.toLowerCase().includes(input) ? '' : 'none';
+      });
+    });
+    // Xóa dòng khi bấm Xóa
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        let tr = this.closest('tr');
+        if (confirm('Bạn có chắc chắn muốn xoá?')) {
+          tr.remove();
+        }
       });
     });
   </script>
