@@ -138,15 +138,16 @@
       <a href="#" class="sidebar-item"><img src='img/producer.png'><span>Quản lý nhà cung cấp</span></a>
       <a href="#" class="sidebar-item"><img src='img/stock_in.png'><span>Quản lý nhập kho</span></a>
       <a href="#" class="sidebar-item"><img src='img/stock_out.png'><span>Quản lý xuất kho</span></a>
-      <div class="sidebar-item active" id="reportMenu">
-        <img src='img/inventory_report.png'><span>Báo cáo thống kê</span>
-        <span style="margin-left:auto;font-size:15px;">&#9660;</span>
-      </div>
-      <div class="sidebar-submenu" id="reportSubMenu" style="display:block;">
-        <div class="sidebar-subitem active" onclick="showTab('baoCaoTonKho', this)">Báo cáo tồn kho</div>
-        <div class="sidebar-subitem" onclick="showTab('danhSachNhap', this)">Danh sách phiếu nhập kho</div>
-        <div class="sidebar-subitem" onclick="showTab('danhSachXuat', this)">Danh sách phiếu xuất kho</div>
-      </div>
+      <div class="sidebar-item active" id="reportMenu" onclick="toggleReportSubMenu()">
+      <img src='img/inventory_report.png'><span>Báo cáo thống kê</span>
+      <span id="reportArrow" style="margin-left:auto;font-size:15px;">&#9660;</span>
+    </div>
+    <div class="sidebar-submenu" id="reportSubMenu" style="display:block;">
+      <div class="sidebar-subitem active" onclick="showTab('baoCaoTonKho', this)">Báo cáo tồn kho</div>
+      <div class="sidebar-subitem" onclick="showTab('danhSachNhap', this)">Danh sách phiếu nhập kho</div>
+      <div class="sidebar-subitem" onclick="showTab('danhSachXuat', this)">Danh sách phiếu xuất kho</div>
+    </div>
+
     </div>
     <!-- MAIN -->
     <div class="main">
@@ -272,6 +273,18 @@
   function toggleSidebar() {
     document.getElementById('sidebar').classList.toggle('hide');
   }
+  function toggleReportSubMenu() {
+  const submenu = document.getElementById('reportSubMenu');
+  const arrow = document.getElementById('reportArrow');
+  if (submenu.style.display === 'none' || submenu.style.display === '') {
+    submenu.style.display = 'block';
+    arrow.innerHTML = '&#9660;'; // Mũi tên xuống
+  } else {
+    submenu.style.display = 'none';
+    arrow.innerHTML = '&#9664;'; // Mũi tên sang phải
+  }
+}
+
 </script>
 </body>
 </html> 
