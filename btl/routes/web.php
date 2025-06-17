@@ -29,9 +29,10 @@ Route::get('/stockin', function () { return view('stockin.index'); })->name('sto
 Route::get('/stockout', function () { return view('stockout.index'); })->name('stockout');
 Route::get('/stockout/create', function () { return view('stockout.create'); })->name('stockout.create');
 
+
 Route::get('/inventory', function () { return view('inventory.index'); })->name('inventory');
 Route::get('/stockin/create', function () { return view('stockin.create'); })->name('stockin.create');
 Route::post('/stockin/store', function () {
-    // Xử lý lưu dữ liệu ở đây (hoặc redirect về index)
     return redirect()->route('stockin');
 })->name('stockin.store');
+Route::get('/stockin/show', function () { return view('stockin.show'); })->name('stockin.show');
