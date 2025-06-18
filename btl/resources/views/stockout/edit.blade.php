@@ -1,4 +1,4 @@
-{{-- resources/views/stockout/create.blade.php --}}
+{{-- resources/views/stockout/edit.blade.php --}}
 @php
 $products = [
     (object)[
@@ -19,7 +19,6 @@ $employees = [
     (object)['code' => 'NV002'],
     (object)['code' => 'NV003'],
 ];
-$nextCode = 'MPX003';
 @endphp
 
 <!DOCTYPE html>
@@ -27,7 +26,7 @@ $nextCode = 'MPX003';
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Thêm phiếu xuất - WEARLY</title>
+  <title>Sửa phiếu xuất - WEARLY</title>
   <style>
     :root {
       --dark: #000;
@@ -226,21 +225,21 @@ $nextCode = 'MPX003';
     <!-- MAIN CONTENT -->
     <div class="main-content">
       <div class="form-box">
-        <div class="form-title">Thêm phiếu xuất</div>
-        <form id="stockoutForm" autocomplete="off">
+        <div class="form-title">Sửa phiếu xuất</div>
+        <form id="stockoutEditForm" autocomplete="off">
           <div class="info-form">
             <div class="info-row">
               <div class="info-group">
                 <div class="info-label">Mã phiếu xuất</div>
-                <div class="info-value" id="nextCode"></div>
+                <div class="info-value" id="edit_code"></div>
               </div>
               <div class="info-group">
                 <div class="info-label">Ngày xuất</div>
-                <input type="date" name="date" value="{{ date('Y-m-d') }}">
+                <input type="date" name="date" id="edit_date">
               </div>
               <div class="info-group">
                 <div class="info-label">Mã nhân viên</div>
-                <select name="employee_code">
+                <select name="employee_code" id="edit_employee">
                   @foreach($employees as $emp)
                     <option value="{{ $emp->code }}">{{ $emp->code }}</option>
                   @endforeach
@@ -305,14 +304,13 @@ $nextCode = 'MPX003';
           </div>
           <div class="form-action-row">
             <a href="{{ route('stockout') }}">Quay lại</a>
-            <button type="button" onclick="alert('Demo: Đã thêm phiếu xuất!')">Xác nhận</button>
+            <button type="button" id="editConfirmBtn">Xác nhận</button>
           </div>
         </form>
       </div>
     </div>
   </div>
 </div>
-
 <!-- Popup xác nhận xoá -->
 <div id="popup-confirm" class="popup-confirm">
   <div class="popup-content">
@@ -323,7 +321,6 @@ $nextCode = 'MPX003';
     </div>
   </div>
 </div>
-
 <!-- Popup thông báo -->
 <div id="popup-notify" class="popup-confirm" style="z-index:2100;">
   <div class="popup-content" style="min-width:320px;">
@@ -333,28 +330,7 @@ $nextCode = 'MPX003';
     </div>
   </div>
 </div>
-
 <script>
-    function getNextStockoutCode() {
-  let arr = JSON.parse(localStorage.getItem('stockout') || '[]');
-  let max = 0;
-  arr.forEach(item => {
-    // Giả sử mã dạng MPX001, MPX002...
-    let match = item.code && item.code.match(/^MPX(\d{3})$/);
-    if (match) {
-      let val = parseInt(match[1]);
-      if (val > max) max = val;
-    }
-  });
-  let next = max + 1;
-  return 'MPX' + String(next).padStart(3, '0');
-}
-
-// Khi trang load, fill mã phiếu xuất vào giao diện
-document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById('nextCode').textContent = getNextStockoutCode();
-});
-
 // Sidebar thu gọn/mở rộng
 function toggleSidebar() {
   document.getElementById('sidebar').classList.toggle('hide');
@@ -368,70 +344,22 @@ document.querySelectorAll('.sidebar-item').forEach(item => {
 });
 
 // Popup thông báo chung
-function showNotifyPopup(msg, callback = null) {
+function showNotifyPopup(msg, closeBtn = true, callback = null) {
   document.getElementById('popup-notify-msg').textContent = msg;
   const actionDiv = document.getElementById('popup-notify-action');
-  actionDiv.style.display = "flex";
-  let closeButton = actionDiv.querySelector('button');
-  if (callback) {
-    closeButton.onclick = function() {
-      hideNotifyPopup();
-      callback();
-    };
+  if (closeBtn) {
+    actionDiv.style.display = "flex";
   } else {
-    closeButton.onclick = hideNotifyPopup;
+    actionDiv.style.display = "none";
   }
   document.getElementById('popup-notify').style.display = "flex";
-}
-
-
-// Nút xác nhận Thêm phiếu xuất
-document.querySelector('button[onclick*="alert"]').onclick = function(e) {
-  e.preventDefault();
-  // Kiểm tra có dòng nào hợp lệ không, nếu không thì báo popup
-  let valid = false;
-  document.querySelectorAll('.so-luong').forEach(input => {
-    if (input.value && Number(input.value) > 0) valid = true;
-  });
-  if (!valid) {
-    showNotifyPopup("Bạn phải chọn ít nhất 1 sản phẩm và số lượng xuất hợp lệ!");
-    return;
+  if (!closeBtn && callback) {
+    setTimeout(() => {
+      hideNotifyPopup();
+      callback();
+    }, 1200); // 1.2s tự động đóng và chuyển trang
   }
-  // LẤY THÔNG TIN PHIẾU XUẤT (DEMO)
-  let code = getNextStockoutCode();
-  let date = document.querySelector('input[name="date"]').value;
-  let employee = document.querySelector('select[name="employee_code"]').value;
-  let products = [];
-  let totalProduct = 0, totalPrice = 0;
-  document.querySelectorAll('#prodTbody tr').forEach(row => {
-    let code = row.querySelector('select').value;
-    let name = row.querySelector('.ten-sp').textContent;
-    let supplier = row.querySelector('.ncc-sp').textContent;
-    let qty = Number(row.querySelector('.so-luong').value) || 0;
-    let price = Number((row.querySelector('.gia-sp').textContent || '').replace(/[^\d]/g, '')) || 0;
-    if (code && qty > 0 && price > 0) {
-      products.push({code, name, supplier, qty, price});
-      totalProduct += 1; // Đếm số sản phẩm khác nhau
-      totalPrice += qty * price;
-    }
-  });
-  let newStockout = {
-    code, date, employee, supplier: products[0]?.supplier || '',
-    totalProduct, totalPrice,
-    products
-  };
-
-  // LƯU VÀO localStorage
-  // LƯU VÀO localStorage
-let arr = JSON.parse(localStorage.getItem('stockout') || '[]');
-arr.push(newStockout);
-localStorage.setItem('stockout', JSON.stringify(arr));
-// Để nút Đóng hiện ra và chuyển trang khi bấm Đóng:
-showNotifyPopup("Thêm phiếu xuất thành công", function() {
-  window.location.href = "{{ route('stockout') }}";
-});
-
-};
+}
 function hideNotifyPopup() {
   document.getElementById('popup-notify').style.display = "none";
 }
@@ -532,24 +460,22 @@ function checkValidQty(input) {
   let valNum = Number(input.value) || 0;
   if (valNum > ton && ton > 0) {
     input.value = ton;
-    showNotifyPopup('Không được xuất quá số lượng tồn');
+    showNotifyPopup('Không được xuất quá số lượng tồn!');
   }
 }
 
 function calcTotal() {
     let tbody = document.getElementById('prodTbody');
-    let tongSanPham = 0, tongTien = 0;
+    let tongSL = 0, tongTien = 0;
     tbody.querySelectorAll('tr').forEach(row => {
-        let code = row.querySelector('select').value;
         let sl = Number(row.querySelector('.so-luong')?.value) || 0;
         let gia = Number((row.querySelector('.gia-sp')?.textContent || '').replace(/[^\d]/g, '')) || 0;
-        // Chỉ tính sản phẩm nào đã chọn mã, có số lượng và đơn giá > 0
-        if (code && sl > 0 && gia > 0) {
-            tongSanPham += 1;  // Đếm số sản phẩm khác nhau
+        if(sl > 0 && gia > 0) {
+            tongSL += sl;
             tongTien += (sl * gia);
         }
     });
-    document.getElementById('tongSanPham').textContent = tongSanPham;
+    document.getElementById('tongSanPham').textContent = tongSL;
     document.getElementById('tongTien').textContent = tongTien.toLocaleString() + 'đ';
 }
 
@@ -561,7 +487,7 @@ document.querySelector('button[onclick*="alert"]').onclick = function(e) {
     if (input.value && Number(input.value) > 0) valid = true;
   });
   if (!valid) {
-    showNotifyPopup("Bạn phải chọn ít nhất 1 sản phẩm và số lượng xuất hợp lệ");
+    showNotifyPopup("Bạn phải chọn ít nhất 1 sản phẩm và số lượng xuất hợp lệ!");
     return;
   }
   // LẤY THÔNG TIN PHIẾU XUẤT (DEMO)
@@ -569,20 +495,19 @@ document.querySelector('button[onclick*="alert"]').onclick = function(e) {
   let date = document.querySelector('input[name="date"]').value;
   let employee = document.querySelector('select[name="employee_code"]').value;
   let products = [];
-let totalProduct = 0, totalPrice = 0;
-document.querySelectorAll('#prodTbody tr').forEach(row => {
-  let code = row.querySelector('select').value;
-  let name = row.querySelector('.ten-sp').textContent;
-  let supplier = row.querySelector('.ncc-sp').textContent;
-  let qty = Number(row.querySelector('.so-luong').value) || 0;
-  let price = Number((row.querySelector('.gia-sp').textContent || '').replace(/[^\d]/g, '')) || 0;
-  if (code && qty > 0 && price > 0) {
-    products.push({code, name, supplier, qty, price});
-    totalProduct += 1; // Đếm số sản phẩm khác nhau
-    totalPrice += qty * price;
-  }
-});
-
+  let totalProduct = 0, totalPrice = 0;
+  document.querySelectorAll('#prodTbody tr').forEach(row => {
+    let code = row.querySelector('select').value;
+    let name = row.querySelector('.ten-sp').textContent;
+    let supplier = row.querySelector('.ncc-sp').textContent;
+    let qty = Number(row.querySelector('.so-luong').value) || 0;
+    let price = Number((row.querySelector('.gia-sp').textContent || '').replace(/[^\d]/g, '')) || 0;
+    if (code && qty > 0 && price > 0) {
+      products.push({code, name, supplier, qty, price});
+      totalProduct += qty;
+      totalPrice += qty * price;
+    }
+  });
   let newStockout = {
     code, date, employee, supplier: products[0]?.supplier || '',
     totalProduct, totalPrice,
@@ -593,11 +518,107 @@ document.querySelectorAll('#prodTbody tr').forEach(row => {
   let arr = JSON.parse(localStorage.getItem('stockout') || '[]');
   arr.push(newStockout);
   localStorage.setItem('stockout', JSON.stringify(arr));
-  showNotifyPopup("Thêm phiếu xuất thành công", function() {
+  showNotifyPopup("Thêm phiếu xuất thành công!", false, function() {
     window.location.href = "{{ route('stockout') }}";
   });
 };
 
+// LẤY MÃ PHIẾU XUẤT ĐANG SỬA
+let code = sessionStorage.getItem('stockout_edit');
+let arr = JSON.parse(localStorage.getItem('stockout') || '[]');
+let stockout = arr.find(item => item.code === code);
+
+// Nếu không có, quay lại
+if (!stockout) window.location.href = "{{ route('stockout') }}";
+
+// Hiển thị dữ liệu cơ bản
+document.getElementById('edit_code').textContent = stockout.code;
+document.getElementById('edit_date').value = stockout.date;
+document.getElementById('edit_employee').value = stockout.employee;
+
+// Hiển thị sản phẩm lên các dòng
+let tbody = document.getElementById('prodTbody');
+let trs = tbody.querySelectorAll('tr');
+for(let i=0; i<5; i++) {
+    let tr = trs[i];
+    let prod = stockout.products && stockout.products[i] ? stockout.products[i] : null;
+    let select = tr.querySelector('select');
+    let name = tr.querySelector('.ten-sp');
+    let ncc = tr.querySelector('.ncc-sp');
+    let ton = tr.querySelector('.ton-sp');
+    let qty = tr.querySelector('.so-luong');
+    let gia = tr.querySelector('.gia-sp');
+    if(prod) {
+        // set value cho select option
+        select.value = prod.code;
+        let opt = select.querySelector(`option[value="${prod.code}"]`);
+        if(opt) {
+            name.textContent = opt.dataset.name || prod.name || '';
+            ncc.textContent = opt.dataset.supplier || prod.supplier || '';
+            ton.textContent = opt.dataset.stock || '';
+            gia.textContent = opt.dataset.price ? Number(opt.dataset.price).toLocaleString() + 'đ' : (prod.price ? Number(prod.price).toLocaleString()+'đ' : '');
+        } else {
+            name.textContent = prod.name || '';
+            ncc.textContent = prod.supplier || '';
+            gia.textContent = prod.price ? Number(prod.price).toLocaleString()+'đ':'';
+        }
+        qty.value = prod.qty;
+    } else {
+        select.value = '';
+        name.textContent = '';
+        ncc.textContent = '';
+        ton.textContent = '';
+        qty.value = '';
+        gia.textContent = '';
+    }
+}
+// Cập nhật tổng lại
+calcTotal();
+
+// Xử lý bấm "Xác nhận"
+document.getElementById('editConfirmBtn').onclick = function(e) {
+  e.preventDefault();
+  // Validate
+  let valid = false;
+  document.querySelectorAll('.so-luong').forEach(input => {
+    if (input.value && Number(input.value) > 0) valid = true;
+  });
+  if (!valid) {
+    showNotifyPopup("Bạn phải chọn ít nhất 1 sản phẩm và số lượng xuất hợp lệ!");
+    return;
+  }
+  // LẤY THÔNG TIN PHIẾU XUẤT
+  let date = document.getElementById('edit_date').value;
+  let employee = document.getElementById('edit_employee').value;
+  let products = [];
+  let totalProduct = 0, totalPrice = 0;
+  document.querySelectorAll('#prodTbody tr').forEach(row => {
+    let code = row.querySelector('select').value;
+    let name = row.querySelector('.ten-sp').textContent;
+    let supplier = row.querySelector('.ncc-sp').textContent;
+    let qty = Number(row.querySelector('.so-luong').value) || 0;
+    let price = Number((row.querySelector('.gia-sp').textContent || '').replace(/[^\d]/g, '')) || 0;
+    if (code && qty > 0 && price > 0) {
+      products.push({code, name, supplier, qty, price});
+      totalProduct += qty;
+      totalPrice += qty * price;
+    }
+  });
+  // Update object
+  stockout.date = date;
+  stockout.employee = employee;
+  stockout.products = products;
+  stockout.totalProduct = totalProduct;
+  stockout.totalPrice = totalPrice;
+  stockout.supplier = products[0]?.supplier || '';
+  // Update localStorage
+  let idx = arr.findIndex(item => item.code === stockout.code);
+  if(idx !== -1) arr[idx] = stockout;
+  localStorage.setItem('stockout', JSON.stringify(arr));
+  showNotifyPopup("Cập nhật phiếu xuất thành công!", false, function() {
+    window.location.href = "{{ route('stockout') }}";
+  });
+};
 </script>
 </body>
 </html>
