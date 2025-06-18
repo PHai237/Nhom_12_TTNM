@@ -349,17 +349,27 @@ function showNotifyPopup(msg, closeBtn = true, callback = null) {
   const actionDiv = document.getElementById('popup-notify-action');
   if (closeBtn) {
     actionDiv.style.display = "flex";
+    let closeButton = actionDiv.querySelector('button');
+    if (callback) {
+      closeButton.onclick = function() {
+        hideNotifyPopup();
+        callback();
+      }
+    } else {
+      closeButton.onclick = hideNotifyPopup;
+    }
   } else {
     actionDiv.style.display = "none";
+    if (callback) {
+      setTimeout(() => {
+        hideNotifyPopup();
+        callback();
+      }, 1200);
+    }
   }
   document.getElementById('popup-notify').style.display = "flex";
-  if (!closeBtn && callback) {
-    setTimeout(() => {
-      hideNotifyPopup();
-      callback();
-    }, 1200); // 1.2s tự động đóng và chuyển trang
-  }
 }
+
 function hideNotifyPopup() {
   document.getElementById('popup-notify').style.display = "none";
 }
@@ -383,7 +393,7 @@ function fillProductInfo(select) {
     select.selectedIndex = 0;
     resetProductRow(select);
     calcTotal();
-    showNotifyPopup("Mã sản phẩm này đã được chọn ở dòng khác!");
+    showNotifyPopup("Mã sản phẩm này đã được chọn ở dòng khác");
     return;
   }
   let row = select.closest('tr');
@@ -460,7 +470,7 @@ function checkValidQty(input) {
   let valNum = Number(input.value) || 0;
   if (valNum > ton && ton > 0) {
     input.value = ton;
-    showNotifyPopup('Không được xuất quá số lượng tồn!');
+    showNotifyPopup('Không được xuất quá số lượng tồn');
   }
 }
 
@@ -478,50 +488,6 @@ function calcTotal() {
     document.getElementById('tongSanPham').textContent = tongSL;
     document.getElementById('tongTien').textContent = tongTien.toLocaleString() + 'đ';
 }
-
-document.querySelector('button[onclick*="alert"]').onclick = function(e) {
-  e.preventDefault();
-  // Kiểm tra có dòng nào hợp lệ không, nếu không thì báo popup
-  let valid = false;
-  document.querySelectorAll('.so-luong').forEach(input => {
-    if (input.value && Number(input.value) > 0) valid = true;
-  });
-  if (!valid) {
-    showNotifyPopup("Bạn phải chọn ít nhất 1 sản phẩm và số lượng xuất hợp lệ!");
-    return;
-  }
-  // LẤY THÔNG TIN PHIẾU XUẤT (DEMO)
-  let code = "{{ $nextCode }}";
-  let date = document.querySelector('input[name="date"]').value;
-  let employee = document.querySelector('select[name="employee_code"]').value;
-  let products = [];
-  let totalProduct = 0, totalPrice = 0;
-  document.querySelectorAll('#prodTbody tr').forEach(row => {
-    let code = row.querySelector('select').value;
-    let name = row.querySelector('.ten-sp').textContent;
-    let supplier = row.querySelector('.ncc-sp').textContent;
-    let qty = Number(row.querySelector('.so-luong').value) || 0;
-    let price = Number((row.querySelector('.gia-sp').textContent || '').replace(/[^\d]/g, '')) || 0;
-    if (code && qty > 0 && price > 0) {
-      products.push({code, name, supplier, qty, price});
-      totalProduct += qty;
-      totalPrice += qty * price;
-    }
-  });
-  let newStockout = {
-    code, date, employee, supplier: products[0]?.supplier || '',
-    totalProduct, totalPrice,
-    products // <-- thêm dòng này để lưu chi tiết sản phẩm!
-};
-
-  // LƯU VÀO localStorage
-  let arr = JSON.parse(localStorage.getItem('stockout') || '[]');
-  arr.push(newStockout);
-  localStorage.setItem('stockout', JSON.stringify(arr));
-  showNotifyPopup("Thêm phiếu xuất thành công!", false, function() {
-    window.location.href = "{{ route('stockout') }}";
-  });
-};
 
 // LẤY MÃ PHIẾU XUẤT ĐANG SỬA
 let code = sessionStorage.getItem('stockout_edit');
@@ -584,7 +550,7 @@ document.getElementById('editConfirmBtn').onclick = function(e) {
     if (input.value && Number(input.value) > 0) valid = true;
   });
   if (!valid) {
-    showNotifyPopup("Bạn phải chọn ít nhất 1 sản phẩm và số lượng xuất hợp lệ!");
+    showNotifyPopup("Bạn phải chọn ít nhất 1 sản phẩm và số lượng xuất hợp lệ");
     return;
   }
   // LẤY THÔNG TIN PHIẾU XUẤT
@@ -615,9 +581,10 @@ document.getElementById('editConfirmBtn').onclick = function(e) {
   let idx = arr.findIndex(item => item.code === stockout.code);
   if(idx !== -1) arr[idx] = stockout;
   localStorage.setItem('stockout', JSON.stringify(arr));
-  showNotifyPopup("Cập nhật phiếu xuất thành công!", false, function() {
-    window.location.href = "{{ route('stockout') }}";
-  });
+  showNotifyPopup("Cập nhật phiếu xuất thành công", true, function() {
+  window.location.href = "{{ route('stockout') }}";
+});
+
 };
 </script>
 </body>
