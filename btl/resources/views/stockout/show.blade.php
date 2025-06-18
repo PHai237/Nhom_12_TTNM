@@ -134,9 +134,17 @@
     .total-row > div { display: flex; align-items: center; gap: 12px;}
     .total-label { font-size: 19px; color: #333;}
     .total-value {
-      background: var(--input); border-radius: 18px; min-width: 100px;
-      display: inline-block; padding: 7px 22px; font-size: 18px; color: #227062; text-align: center;
-    }
+        background: var(--input);
+        border-radius: 18px;
+        min-width: 100px;
+        width: 160px; /* Đặt width cố định cho đồng đều */
+        display: inline-block;
+        padding: 7px 22px;
+        font-size: 18px;
+        color: #227062;
+        text-align: center;
+        }
+
     .form-action-row {
       display: flex; gap: 20px; justify-content: flex-end; margin-top: 28px;
     }
@@ -241,7 +249,7 @@
               <span class="total-value" id="tongSanPham">0</span>
             </div>
             <div>
-              <span class="total-label">Tổng giá trị</span>
+              <span class="total-label">Tổng tiền</span>
               <span class="total-value" id="tongTien">0đ</span>
             </div>
           </div>

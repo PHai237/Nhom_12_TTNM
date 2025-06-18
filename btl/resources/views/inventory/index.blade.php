@@ -31,7 +31,7 @@
     .brand-name {
       position: absolute; left: 50%; transform: translateX(-50%);
       font-size: 32px; font-weight: bold; color: #313131; letter-spacing: 2px;
-      background: #fff; padding: 7px 42px 6px 42px; border-radius: 16px; box-shadow: var(--main-shadow);
+      padding: 7px 42px 6px 42px; border-radius: 16px;
     }
     .avatar { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; border: 3px solid #fff;}
     .layout { display: flex; flex: 1; min-height: 0;}

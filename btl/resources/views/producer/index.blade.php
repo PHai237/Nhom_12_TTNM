@@ -83,10 +83,8 @@
             font-weight: bold;
             color: #313131;
             letter-spacing: 2px;
-            background: #fff;
             padding: 7px 42px 6px 42px;
             border-radius: 16px;
-            box-shadow: var(--main-shadow);
         }
 
         .avatar {

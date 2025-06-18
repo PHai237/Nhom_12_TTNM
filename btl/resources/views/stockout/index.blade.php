@@ -506,6 +506,10 @@
     </div>
   </div>
 <script>
+  function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('hide');
+}
+
 function formatDate(dateStr) {
   if (!dateStr) return '';
   let [y, m, d] = dateStr.split('-');
