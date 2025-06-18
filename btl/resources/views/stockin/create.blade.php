@@ -680,9 +680,12 @@ function validateFormBeforeSubmit(e) {
     e.preventDefault();
     return false;
   }
-  // Cho phép submit nếu hợp lệ
-  return true;
+  // Nếu hợp lệ thì show popup thành công và chặn submit
+  e.preventDefault();
+  showSuccessPopup();
+  return false;
 }
+
 
 // ======= TỰ ĐỘNG NHẢY TÊN SẢN PHẨM ==========
 const PRODUCT_NAMES = {
@@ -702,7 +705,15 @@ document.querySelectorAll('select[name^="products"][name$="[id]"]').forEach(func
   });
 });
 
-
+function showSuccessPopup() {
+  document.getElementById('success-popup').style.display = 'flex';
+}
+function hideSuccessPopup() {
+  // Ẩn popup trước (nếu muốn)
+  document.getElementById('success-popup').style.display = 'none';
+  // Chuyển hướng sang index1.blade.php
+window.location.href = "/stockin-index1";
+}
 </script>
 <!-- Popup xác nhận -->
 <div id="confirm-popup" class="confirm-popup" style="display:none;">
@@ -723,12 +734,22 @@ document.querySelectorAll('select[name^="products"][name$="[id]"]').forEach(func
     <button class="close-btn" onclick="hideInvalidPopup()">&times;</button>
     <div class="confirm-popup-content">
       <span id="invalid-popup-msg" style="color:#fff; font-weight:600; font-size:20px;">Thông tin không hợp lệ</span>
-      <div class="confirm-popup-actions">
-        <button onclick="hideInvalidPopup()" class="confirm-btn">Đóng</button>
-      </div>
+      <!-- Đã xoá nút Đóng ở đây -->
     </div>
   </div>
 </div>
+
+<!-- Popup thông báo thành công -->
+<div id="success-popup" class="confirm-popup" style="display:none; z-index:3000;">
+  <div class="confirm-popup-box" style="background:#a8d5ba;">
+    <button class="close-btn" onclick="hideSuccessPopup()">&times;</button>
+    <div class="confirm-popup-content">
+      <span style="color:#198754; font-weight:600; font-size:22px;">Thêm phiếu nhập thành công!</span>
+      <!-- Đã xoá nút Đóng ở đây -->
+    </div>
+  </div>
+</div>
+
 
 </body>
 </html>

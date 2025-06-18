@@ -484,6 +484,24 @@
                     </div>
                   </td>
                 </tr>
+                <tr>
+                  <td>MPN003</td>
+                  <td>10/06/2025</td>
+                  <td>NV003</td>
+                  <td>MCC001</td>
+                  <td>2</td>
+                  <td>5.860.000đ</td>
+                  <td>
+                    <div class="action-btns">
+                         <button class="btn-small view-btn1">Xem
+                             <img src="{{ asset('img/eye.png') }}" alt="Xem" class="icon"> 
+                         </button>
+                        <button class="btn-small delete-btn">Xóa
+                            <img src="{{ asset('img/delete.png') }}" alt="Xóa" class="icon"> 
+                        </button>
+                    </div>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>

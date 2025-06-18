@@ -36,3 +36,9 @@ Route::post('/stockin/store', function () {
     return redirect()->route('stockin');
 })->name('stockin.store');
 Route::get('/stockin/show', function () { return view('stockin.show'); })->name('stockin.show');
+Route::get('/stockin', function () { return view('stockin.index'); })->name('stockin');
+// File: routes/web.php
+Route::get('/stockin-index1', function () {
+    return view('stockin.index1');
+})->name('stockin.index1');
+
