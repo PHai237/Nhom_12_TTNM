@@ -3,20 +3,21 @@
 $products = [
     (object)[
         'code' => 'SP001', 'name' => 'Váy xòe', 'stock' => 120, 'price' => 140000,
-        'supplier' => (object)['name'=>'May Mặc Hoa Sen']
+        'supplier' => (object)['name'=>'MCC001']
     ],
     (object)[
         'code' => 'SP002', 'name' => 'Áo thun', 'stock' => 75, 'price' => 90000,
-        'supplier' => (object)['name'=>'Thời trang Hồng Hà']
+        'supplier' => (object)['name'=>'MCC002']
     ],
     (object)[
         'code' => 'SP003', 'name' => 'Quần short', 'stock' => 60, 'price' => 85000,
-        'supplier' => (object)['name'=>'May Mặc Minh Châu']
+        'supplier' => (object)['name'=>'MCC003']
     ]
 ];
 $employees = [
     (object)['code' => 'NV001'],
     (object)['code' => 'NV002'],
+    (object)['code' => 'NV003'],
 ];
 $nextCode = 'MPX003';
 @endphp
@@ -482,7 +483,6 @@ function calcTotal() {
     document.getElementById('tongTien').textContent = tongTien.toLocaleString() + 'đ';
 }
 
-// ====== Xử lý bấm nút xác nhận (demo thêm thành công) ======
 document.querySelector('button[onclick*="alert"]').onclick = function(e) {
   e.preventDefault();
   // Kiểm tra có dòng nào hợp lệ không, nếu không thì báo popup
@@ -494,7 +494,35 @@ document.querySelector('button[onclick*="alert"]').onclick = function(e) {
     showNotifyPopup("Bạn phải chọn ít nhất 1 sản phẩm và số lượng xuất hợp lệ!");
     return;
   }
-  showNotifyPopup("Thêm phiếu xuất thành công", false, function() {
+  // LẤY THÔNG TIN PHIẾU XUẤT (DEMO)
+  let code = "{{ $nextCode }}";
+  let date = document.querySelector('input[name="date"]').value;
+  let employee = document.querySelector('select[name="employee_code"]').value;
+  let products = [];
+  let totalProduct = 0, totalPrice = 0;
+  document.querySelectorAll('#prodTbody tr').forEach(row => {
+    let code = row.querySelector('select').value;
+    let name = row.querySelector('.ten-sp').textContent;
+    let supplier = row.querySelector('.ncc-sp').textContent;
+    let qty = Number(row.querySelector('.so-luong').value) || 0;
+    let price = Number((row.querySelector('.gia-sp').textContent || '').replace(/[^\d]/g, '')) || 0;
+    if (code && qty > 0 && price > 0) {
+      products.push({code, name, supplier, qty, price});
+      totalProduct += qty;
+      totalPrice += qty * price;
+    }
+  });
+  let newStockout = {
+    code, date, employee, supplier: products[0]?.supplier || '',
+    totalProduct, totalPrice,
+    products // <-- thêm dòng này để lưu chi tiết sản phẩm!
+};
+
+  // LƯU VÀO localStorage
+  let arr = JSON.parse(localStorage.getItem('stockout') || '[]');
+  arr.push(newStockout);
+  localStorage.setItem('stockout', JSON.stringify(arr));
+  showNotifyPopup("Thêm phiếu xuất thành công!", false, function() {
     window.location.href = "{{ route('stockout') }}";
   });
 };

@@ -492,64 +492,134 @@
       </div>
     </div>
   </div>
-  <script>
-    let rowToDelete = null;
-
-    // Gán sự kiện cho tất cả nút xóa sau khi DOM đã tải
-    document.querySelectorAll('.delete-btn').forEach(btn => {
-      btn.addEventListener('click', function(e) {
-        e.preventDefault();
-        rowToDelete = btn.closest('tr');
-        document.getElementById('deletePopup').style.display = 'flex';
-      });
-    });
-
-    function closePopup() {
-      document.getElementById('deletePopup').style.display = 'none';
-      rowToDelete = null;
+<script>
+function formatDate(dateStr) {
+  if (!dateStr) return '';
+  let [y, m, d] = dateStr.split('-');
+  return `${d}/${m}/${y}`;
+}
+function renderStockoutTable() {
+  let arr = JSON.parse(localStorage.getItem('stockout') || '[]');
+if (arr.length === 0) {
+  arr = [
+    {
+      code: "MPX001",
+      date: "2025-06-08",
+      employee: "NV001",
+      supplier: "MCC003",
+      totalProduct: 3,
+      totalPrice: 1500000,
+      products: [
+        {code: "SP001", name: "Váy xòe", supplier: "MCC001", qty: 1, price: 140000},
+        {code: "SP002", name: "Áo thun", supplier: "MCC002", qty: 1, price: 90000},
+        {code: "SP003", name: "Quần short", supplier: "MCC003", qty: 1, price: 85000}
+      ]
+    },
+    {
+      code: "MPX002",
+      date: "2025-06-09",
+      employee: "NV002",
+      supplier: "MCC002",
+      totalProduct: 1,
+      totalPrice: 800000,
+      products: [
+        {code: "SP002", name: "Áo thun", supplier: "MCC002", qty: 1, price: 800000}
+      ]
     }
+  ];
+  localStorage.setItem('stockout', JSON.stringify(arr));
+}
 
-    function confirmDelete() {
-      if (rowToDelete) rowToDelete.remove();
-      closePopup();
+  let table = document.querySelector('#stockoutTable tbody');
+  table.innerHTML = '';
+  arr.forEach(item => {
+    let tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${item.code}</td>
+      <td>${formatDate(item.date)}</td>
+      <td>${item.employee}</td>
+      <td>${item.supplier}</td>
+      <td>${item.totalProduct}</td>
+      <td>${item.totalPrice.toLocaleString()}đ</td>
+      <td>
+        <div class="action-btns">
+          <button class="btn-small view-btn">Xem
+            <img src="{{ asset('img/eye.png') }}" alt="Xem" class="icon"> 
+          </button>
+          <button class="btn-small delete-btn">Xóa
+            <img src="{{ asset('img/delete.png') }}" alt="Xóa" class="icon"> 
+          </button>
+        </div>
+      </td>
+    `;
+    table.appendChild(tr);
+  });
+  reloadEventButtons();
+}
+function reloadEventButtons() {
+  document.querySelectorAll('.view-btn').forEach(btn => {
+    btn.onclick = function() {
+      let row = btn.closest('tr');
+      let code = row.children[0].textContent;
+      sessionStorage.setItem('stockout_view', code);
+      window.location.href = "{{ route('stockout.show') }}";
     }
-
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('hide');
-    }
-    document.getElementById('searchInput').addEventListener('keyup', function() {
-      let input = this.value.toLowerCase();
-      let trs = document.querySelectorAll('#stockoutTable tbody tr');
-      trs.forEach(row => {
-        row.style.display = row.textContent.toLowerCase().includes(input) ? '' : 'none';
-      });
-    });
-    document.querySelectorAll('.sidebar-item').forEach(item => {
-      item.addEventListener('click', function(e) {
-        document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
-        this.classList.add('active');
-      });
-    });
-    // Nút Thêm (demo điều hướng)
-    document.getElementById('addBtn').onclick = function() {
-      window.location.href = "{{ route('stockout.create') }}";
+  });
+  document.querySelectorAll('.delete-btn').forEach(btn => {
+    btn.onclick = function(e) {
+      e.preventDefault();
+      rowToDelete = btn.closest('tr');
+      document.getElementById('deletePopup').style.display = 'flex';
     };
-    document.querySelectorAll('.view-btn1').forEach(btn => {
-      btn.addEventListener('click', function() {
-        window.location.href = "{{ route('stockout.show') }}";
-      });
-    });
-  </script>
+  });
+}
+let rowToDelete = null;
+
+function closePopup() {
+  document.getElementById('deletePopup').style.display = 'none';
+  // Reset lại nội dung popup về trạng thái hỏi xoá cho lần sau
+  document.getElementById('deletePopupMsg').innerHTML = "Bạn muốn xóa<br>phiếu xuất này?";
+  document.getElementById('deletePopupActions').innerHTML = `
+    <button class="confirm-btn" onclick="confirmDelete()">Xác nhận</button>
+    <button class="cancel-btn" onclick="closePopup()">Hủy</button>
+  `;
+}
+
+function confirmDelete() {
+  if (rowToDelete) {
+    let code = rowToDelete.children[0].textContent;
+    let arr = JSON.parse(localStorage.getItem('stockout') || '[]');
+    arr = arr.filter(item => item.code !== code);
+    localStorage.setItem('stockout', JSON.stringify(arr));
+    rowToDelete.remove();
+    rowToDelete = null;
+    // Thay đổi popup thành thông báo thành công, chỉ còn nút Đóng
+    document.getElementById('deletePopupMsg').innerHTML = "Xóa phiếu xuất thành công!";
+    document.getElementById('deletePopupActions').innerHTML = `
+      <button class="confirm-btn" onclick="closePopup()">Đóng</button>
+    `;
+  }
+}
+
+window.addEventListener('DOMContentLoaded', renderStockoutTable);
+
+document.getElementById('addBtn').onclick = function() {
+  window.location.href = "{{ route('stockout.create') }}";
+};
+
+</script>
+
 </body>
 <!-- Popup xác nhận xóa -->
 <div id="deletePopup" class="popup-overlay" style="display: none;">
   <div class="popup-content">
     <button class="close-btn" onclick="closePopup()">&times;</button>
-    <div class="popup-title">Bạn muốn xóa<br>phiếu xuất này?</div>
-    <div class="popup-actions">
+    <div id="deletePopupMsg" class="popup-title">Bạn muốn xóa<br>phiếu xuất này?</div>
+    <div id="deletePopupActions" class="popup-actions">
       <button class="confirm-btn" onclick="confirmDelete()">Xác nhận</button>
       <button class="cancel-btn" onclick="closePopup()">Hủy</button>
     </div>
   </div>
 </div>
+
 </html>
