@@ -336,8 +336,12 @@
 
 
         <div class="action-bar">
-          <a href="{{ url('stockin') }}" class="btn-sub">Quay lại</a>
-          <button class="btn-main">Sửa <img src="{{ asset('img/edit.png') }}" style="width:22px;vertical-align:middle;margin-left:6px;"></button>
+          <a href="{{ url('/stockin-index1') }}" class="btn-sub">Quay lại</a>
+
+          <button id="editBtn" class="btn-main">
+  Sửa <img src="{{ asset('img/edit.png') }}" style="width:22px;vertical-align:middle;margin-left:6px;">
+</button>
+
         </div>
       </div>
     </div>
@@ -355,6 +359,12 @@
       this.classList.add('active');
     });
   });
+   // Điều hướng sang trang edit
+  document.getElementById('editBtn').onclick = function() {
+window.location.href = "{{ url('/stockin-edit') }}";
+
+    // window.location.href = "/duong-dan-toi-edit-tren-web.php"; // Nếu là route Laravel
+  }
 </script>
 </body>
 </html>

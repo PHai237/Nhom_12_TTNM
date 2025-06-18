@@ -41,4 +41,9 @@ Route::get('/stockin', function () { return view('stockin.index'); })->name('sto
 Route::get('/stockin-index1', function () {
     return view('stockin.index1');
 })->name('stockin.index1');
-
+Route::get('/stockin-edit', function () {
+    return view('stockin.edit');
+})->name('stockin.edit');
+Route::get('/stockin-index2', function () {
+    return view('stockin.index2');
+})->name('stockin.index2');

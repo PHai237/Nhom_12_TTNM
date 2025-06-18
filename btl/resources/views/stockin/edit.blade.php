@@ -433,6 +433,86 @@ select {
   cursor: pointer;
   font-weight: bold;
 }
+.confirm-popup {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.18);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999 !important;
+  transition: opacity .2s;
+}
+
+.confirm-popup-box {
+  background: var(--green);
+  border-radius: 20px;
+  box-shadow: 0 4px 24px #b7dfcc93;
+  min-width: 320px; max-width: 85vw;
+  min-height: 125px;
+  padding: 32px 32px 28px 32px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: popIn .22s cubic-bezier(.7,1.7,.6,1);
+  text-align: center;
+}
+
+@keyframes popIn {
+  from {transform: scale(.8); opacity: 0;}
+  to {transform: scale(1); opacity: 1;}
+}
+
+.confirm-popup-box .close-btn {
+  position: absolute; top: 16px; right: 16px;
+  background: transparent; border: none;
+  font-size: 25px; color: #fff; cursor: pointer;
+  line-height: 1;
+  transition: color .2s;
+}
+.confirm-popup-box .close-btn:hover { color: #222;}
+.confirm-popup-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.confirm-popup-content span, .confirm-popup-content .popup-title {
+  color: #fff;
+  font-size: 23px;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 16px;
+  margin-top: 6px;
+  line-height: 1.4;
+}
+.confirm-popup-actions {
+  display: flex;
+  gap: 60px;
+  margin-top: 6px;
+  justify-content: center;
+}
+.confirm-popup-actions button,
+.confirm-btn, .cancel-btn {
+  min-width: 92px;
+  border: none;
+  outline: none;
+  border-radius: 16px;
+  padding: 9px 0;
+  font-size: 17px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background .18s, color .18s;
+}
+.confirm-btn {
+  background: #fff; color: var(--dark);
+  border: 2px solid var(--green-dark);
+}
+.confirm-btn:hover { background: #d0f2e3; }
+.cancel-btn {
+  background: #f7f7f7; color: #444; border: 2px solid #e0e0e0;
+}
+.cancel-btn:hover { background: #ffeaea; color: #e65757; }
 
   </style>
 </head>
@@ -462,113 +542,162 @@ select {
     <!-- MAIN CONTENT -->
     <div class="main-content">
       <div class="form-box">
-        <div class="form-title">Thêm phiếu nhập</div>
-        <form method="post" action="{{ route('stockin.store') }}" onsubmit="return validateFormBeforeSubmit(event);">
-
-          @csrf
-          <!-- Info Form -->
-          <div class="info-form">
-            <div class="info-row">
-              <div class="info-group">
-                <div class="info-label">Mã phiếu nhập</div>
-                <div class="info-value">MPN003</div>
-              </div>
-              <div class="info-group right">
-                <div class="info-label">Mã nhân viên</div>
-                <div class="info-value">NV003</div>
-              </div>
-            </div>
-            <div class="info-row">
-              <div class="info-group">
-                <div class="info-label">Ngày nhập</div>
-                <input type="date" name="import_date" value="{{ date('Y-m-d') }}">
-              </div>
-              <div class="info-group right">
-                <div class="info-label">Mã nhà cung cấp</div>
-                <select name="supplier_id">
-                  <option value="">-- Chọn --</option>
-                  <option value="MCC001">MCC001</option>
-                  <option value="MCC002">MCC002</option>
-                  <option value="MCC003">MCC003</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <!-- Product Table -->
-          <div class="table-scroll">
-            <table>
-                    <colgroup>
-      <col style="width:18%">
-      <col style="width:28%">
-      <col style="width:15%">
-      <col style="width:18%">
-      <col style="width:15%">
-    </colgroup>
-              <thead>
-                <tr>
-                  <th>Mã sản phẩm</th>
-                  <th>Tên sản phẩm</th>
-                  <th>Số lượng</th>
-                  <th>Đơn giá</th>
-                  <th>Chức năng</th>
-                </tr>
-              </thead>
-              <tbody>
-                @for($i = 0; $i < 5; $i++)
-                <tr>
-                  <td>
-                    <select name="products[{{ $i }}][id]">
-                      <option value="">▼</option>
-                      <option value="SP001">SP001</option>
-                      <option value="SP002">SP002</option>
-                      <option value="SP003">SP003</option>
-                      <option value="SP004">SP004</option>
-                      <option value="SP005">SP005</option>
-                    </select>
-                  </td>
-                  <td>
-                    <input type="text" name="products[{{ $i }}][name]" value="" style="width: 120px;">
-                  </td>
-                  <td>
-                    <input type="text" name="products[{{ $i }}][qty]" value="" style="width: 65px;">
-                  </td>
-                  <td>
-                    <input type="text" name="products[{{ $i }}][price]" value="" style="width: 95px;">
-                  </td>
-<td class="action-cell">
-<button type="button" class="btn-delete" onclick="confirmDelete(this)">
-  Xoá <img src="{{ asset('img/delete.png') }}" alt="Xoá" class="delete-icon">
-</button>
-
-
-</td>
-                </tr>
-                @endfor
-              </tbody>
-            </table>
-          </div>
-          <!-- Total row -->
-<div class="total-row" style="flex-direction: column; align-items: flex-end; gap: 6px;">
-  <div>
-    <span class="total-label">Tổng sản phẩm</span>
-    <span class="total-value" id="totalQty">0</span>
+        <div class="form-title">Sửa phiếu nhập</div>
+<!-- CHỈ SỬA LẠI DỮ LIỆU MẶC ĐỊNH NHƯ BÊN DƯỚI -->
+<form method="post" action="{{ route('stockin.store') }}" onsubmit="return validateFormBeforeSubmit(event);">
+  @csrf
+  <!-- Info Form -->
+  <div class="info-form">
+    <div class="info-row">
+      <div class="info-group">
+        <div class="info-label">Mã phiếu nhập</div>
+        <div class="info-value">MPN003</div>
+      </div>
+      <div class="info-group right">
+        <div class="info-label">Mã nhân viên</div>
+        <div class="info-value">NV003</div>
+      </div>
+    </div>
+    <div class="info-row">
+      <div class="info-group">
+        <div class="info-label">Ngày nhập</div>
+        <!-- Đúng ngày 2025-06-10 -->
+        <input type="date" name="import_date" value="2025-06-10">
+      </div>
+      <div class="info-group right">
+        <div class="info-label">Mã nhà cung cấp</div>
+<select name="supplier_id" disabled style="background: #e0ede6;">
+  <option value="MCC001" selected>MCC001</option>
+</select>
+      </div>
+    </div>
   </div>
-  <div>
-    <span class="total-label">Tổng giá trị</span>
-    <span class="total-value" id="totalValue">0đ</span>
+  <!-- Product Table -->
+  <div class="table-scroll">
+    <table>
+      <colgroup>
+        <col style="width:18%">
+        <col style="width:28%">
+        <col style="width:15%">
+        <col style="width:18%">
+        <col style="width:15%">
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Mã sản phẩm</th>
+          <th>Tên sản phẩm</th>
+          <th>Số lượng</th>
+          <th>Đơn giá</th>
+          <th>Chức năng</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- DÒNG 1 -->
+        <tr>
+          <td>
+            <select name="products[0][id]">
+              <option value="">▼</option>
+              <option value="SP001" selected>SP0001</option>
+              <option value="SP002">SP0002</option>
+              <option value="SP003">SP0003</option>
+              <option value="SP004">SP0004</option>
+              <option value="SP005">SP0005</option>
+            </select>
+          </td>
+          <td>
+            <input type="text" name="products[0][name]" value="Áo phông" style="width: 120px;">
+          </td>
+          <td>
+            <input type="text" name="products[0][qty]" value="90" style="width: 65px;">
+          </td>
+          <td>
+            <input type="text" name="products[0][price]" value="49000" style="width: 95px;">
+          </td>
+          <td class="action-cell">
+            <button type="button" class="btn-delete" onclick="confirmDelete(this)">
+              Xoá <img src="{{ asset('img/delete.png') }}" alt="Xoá" class="delete-icon">
+            </button>
+          </td>
+        </tr>
+        <!-- DÒNG 2 -->
+        <tr>
+          <td>
+            <select name="products[1][id]">
+              <option value="">▼</option>
+              <option value="SP001">SP0001</option>
+              <option value="SP002">SP0002</option>
+              <option value="SP003">SP0003</option>
+              <option value="SP004" selected>SP0004</option>
+              <option value="SP005">SP0005</option>
+            </select>
+          </td>
+          <td>
+            <input type="text" name="products[1][name]" value="Khăn" style="width: 120px;">
+          </td>
+          <td>
+            <input type="text" name="products[1][qty]" value="50" style="width: 65px;">
+          </td>
+          <td>
+            <input type="text" name="products[1][price]" value="29000" style="width: 95px;">
+          </td>
+          <td class="action-cell">
+            <button type="button" class="btn-delete" onclick="confirmDelete(this)">
+              Xoá <img src="{{ asset('img/delete.png') }}" alt="Xoá" class="delete-icon">
+            </button>
+          </td>
+        </tr>
+        <!-- DÒNG TRỐNG 3, 4, 5 (dành cho nhập thêm sp mới) -->
+        @for($i = 2; $i < 5; $i++)
+        <tr>
+          <td>
+            <select name="products[{{ $i }}][id]">
+              <option value="" selected>▼</option>
+              <option value="SP001">SP0001</option>
+              <option value="SP002">SP0002</option>
+              <option value="SP003">SP0003</option>
+              <option value="SP004">SP0004</option>
+              <option value="SP005">SP0005</option>
+            </select>
+          </td>
+          <td><input type="text" name="products[{{ $i }}][name]" value="" style="width: 120px;"></td>
+          <td><input type="text" name="products[{{ $i }}][qty]" value="" style="width: 65px;"></td>
+          <td><input type="text" name="products[{{ $i }}][price]" value="" style="width: 95px;"></td>
+          <td class="action-cell">
+            <button type="button" class="btn-delete" onclick="confirmDelete(this)">
+              Xoá <img src="{{ asset('img/delete.png') }}" alt="Xoá" class="delete-icon">
+            </button>
+          </td>
+        </tr>
+        @endfor
+      </tbody>
+    </table>
   </div>
-</div>
+  <!-- Total row -->
+  <div class="total-row" style="flex-direction: column; align-items: flex-end; gap: 6px;">
+    <div>
+      <span class="total-label">Tổng sản phẩm</span>
+      <span class="total-value" id="totalQty">2</span>
+    </div>
+    <div>
+      <span class="total-label">Tổng giá trị</span>
+      <span class="total-value" id="totalValue">5.860.000đ</span>
+    </div>
+  </div>
+  <div class="form-action-row">
+    <button type="button" onclick="window.history.back()">Quay lại</button>
+    <button type="submit">Xác nhận</button>
+  </div>
+</form>
 
-          <div class="form-action-row">
-            <button type="button" onclick="window.history.back()">Quay lại</button>
-            <button type="submit">Xác nhận</button>
-          </div>
-        </form>
       </div>
     </div>
   </div>
 </div>
 <script>
+    let editingRow = null;
+let oldRowValues = null;
+let editingInput = null; // input đang sửa (để focus lại khi hủy)
+
     // Hiện popup cảnh báo lỗi nhập liệu
 function showInvalidPopup(msg) {
   document.getElementById('invalid-popup-msg').textContent = msg || "Thông tin không hợp lệ";
@@ -598,38 +727,75 @@ document.querySelectorAll('.sidebar-item').forEach(item => {
 
 // ====== TÍNH TỔNG =======
 function updateTotals() {
-  let totalProducts = 0, totalVal = 0;
+  let totalRow = 0; // Đếm số hàng hợp lệ
+  let totalVal = 0;
   document.querySelectorAll('tbody tr').forEach(row => {
     let productId = row.querySelector('select[name*="[id]"]')?.value?.trim();
     let productName = row.querySelector('input[name*="[name]"]')?.value?.trim();
-    let qtyInput = row.querySelector('input[name*="[qty]"]');
-    let priceInput = row.querySelector('input[name*="[price]"]');
-    let qty = qtyInput ? qtyInput.value.trim() : "";
-    let price = priceInput ? priceInput.value.trim() : "";
 
-    // Dòng hợp lệ nếu có mã hoặc tên, và số lượng, đơn giá đều là số nguyên dương
-    if ((productId || productName) && isValidNumber(qty) && isValidNumber(price)) {
-      totalProducts++;
-      totalVal += parseInt(qty) * parseInt(price);
+    // Chỉ tính những dòng có mã sản phẩm hoặc tên sản phẩm (không tính dòng trống)
+    if (productId || productName) {
+      totalRow++; // Mỗi hàng hợp lệ tăng 1
+      let qty = parseInt(row.querySelector('input[name*="[qty]"]')?.value || 0);
+      let price = parseInt(row.querySelector('input[name*="[price]"]')?.value || 0);
+      if (!isNaN(qty) && !isNaN(price)) totalVal += qty * price;
     }
   });
-  document.getElementById('totalQty').textContent = totalProducts;
+  document.getElementById('totalQty').textContent = totalRow; // Chỉ hiển thị số hàng sản phẩm thực
   document.getElementById('totalValue').textContent = totalVal.toLocaleString('vi-VN') + 'đ';
 }
 
 
-
 function addTotalUpdateEvents() {
-  document.querySelectorAll('input[name*="[qty]"], input[name*="[price]"]').forEach(input => {
+  document.querySelectorAll('input[name*="[qty]"], input[name*="[price]"], input[name*="[name]"]').forEach(input => {
     input.addEventListener('keydown', function(e) {
       if (e.key === "Enter") {
-        updateTotals();
-        // Nếu muốn rời focus luôn sau khi Enter:
-        this.blur();
+        e.preventDefault();
+        editingRow = input.closest('tr');
+        editingInput = input;
+        // Lưu lại giá trị cũ của cả dòng để có thể reset nếu hủy
+        oldRowValues = {
+          name: editingRow.querySelector('input[name*="[name]"]').value,
+          qty: editingRow.querySelector('input[name*="[qty]"]').value,
+          price: editingRow.querySelector('input[name*="[price]"]').value,
+        };
+        showEditPopup();
       }
     });
     input.addEventListener('blur', updateTotals);
   });
+}
+
+function showEditPopup() {
+  document.getElementById('edit-popup').style.display = 'flex';
+}
+function showEditSuccessPopup() {
+  document.getElementById('edit-success-popup').style.display = 'flex';
+}
+function hideEditSuccessPopup() {
+  document.getElementById('edit-success-popup').style.display = 'none';
+  // Có thể updateTotals lại nếu muốn, hoặc focus lại input nào đó tuỳ ý bạn
+}
+function showDeleteSuccessPopup() {
+  document.getElementById('delete-success-popup').style.display = 'flex';
+}
+function hideDeleteSuccessPopup() {
+  document.getElementById('delete-success-popup').style.display = 'none';
+}
+
+
+function hideEditPopup(reset = false) {
+  document.getElementById('edit-popup').style.display = 'none';
+  if (reset && editingRow && oldRowValues) {
+    // Trả lại giá trị cũ cho dòng
+    editingRow.querySelector('input[name*="[name]"]').value = oldRowValues.name;
+    editingRow.querySelector('input[name*="[qty]"]').value = oldRowValues.qty;
+    editingRow.querySelector('input[name*="[price]"]').value = oldRowValues.price;
+    if (editingInput) editingInput.focus();
+  }
+  editingRow = null;
+  oldRowValues = null;
+  editingInput = null;
 }
 
 
@@ -656,11 +822,32 @@ document.addEventListener("DOMContentLoaded", function() {
       addTotalUpdateEvents(); // Cần gán lại vì DOM thay đổi
     }
     hideConfirmPopup();
+    // Hiện popup "Xóa sản phẩm thành công"
+    showDeleteSuccessPopup();
+  };
+
+  // Sự kiện xác nhận sửa
+  document.getElementById('edit-ok-btn').onclick = function() {
+    // Kiểm tra hợp lệ trước khi cho sửa thành công!
+    if (editingRow) {
+      let qtyVal = editingRow.querySelector('input[name*="[qty]"]').value;
+      let priceVal = editingRow.querySelector('input[name*="[price]"]').value;
+      if (!isValidNumber(qtyVal) || !isValidNumber(priceVal)) {
+        hideEditPopup(false); // Ẩn popup sửa (nếu muốn có thể giữ lại)
+        showInvalidPopup("Thông tin không hợp lệ");
+        return;
+      }
+    }
+    hideEditPopup(false);
+    updateTotals();
+    showEditSuccessPopup();
   };
 
   // Gán sự kiện cho các ô input khi load lần đầu
   addTotalUpdateEvents();
 });
+
+
 function validateFormBeforeSubmit(e) {
   let isValid = true;
   document.querySelectorAll('tbody tr').forEach(row => {
@@ -669,9 +856,7 @@ function validateFormBeforeSubmit(e) {
     let productId = row.querySelector('select[name*="[id]"]')?.value?.trim();
     let productName = row.querySelector('input[name*="[name]"]')?.value?.trim();
 
-    // Nếu hàng có nhập sản phẩm (mã hoặc tên)
     if (productId || productName) {
-      // Kiểm tra số lượng và đơn giá
       if (!isValidNumber(qtyInput.value) || !isValidNumber(priceInput.value)) {
         isValid = false;
       }
@@ -680,54 +865,32 @@ function validateFormBeforeSubmit(e) {
 
   if (!isValid) {
     showInvalidPopup("Thông tin không hợp lệ");
-    // Chặn submit form
     e.preventDefault();
     return false;
   }
-  // Nếu hợp lệ thì show popup thành công và chặn submit
+function showEditInvoiceConfirmPopup() {
+  document.getElementById('confirm-edit-invoice-popup').style.display = 'flex';
+}
+function hideEditInvoiceConfirmPopup() {
+  document.getElementById('confirm-edit-invoice-popup').style.display = 'none';
+}
+
+// Submit form khi xác nhận trong popup
+document.addEventListener('DOMContentLoaded', function() {
+  // Các hàm cũ...
+  // Thêm event cho nút "Xác nhận" popup sửa phiếu nhập
+  document.getElementById('edit-invoice-ok-btn').onclick = function() {
+    // Tìm form cha và submit
+    document.querySelector('form').submit();
+  };
+});
+
+  // Nếu hợp lệ thì hiện popup xác nhận sửa phiếu nhập
   e.preventDefault();
-  showSuccessPopup();
+  showEditInvoiceConfirmPopup();
   return false;
 }
-// Key: mã nhà cung cấp, Value: mảng mã sản phẩm
-const SUPPLIER_PRODUCTS = {
-  'MCC001': ['SP001', 'SP004', 'SP005'],
-  'MCC002': ['SP002', 'SP003'],
-  'MCC003': ['SP001', 'SP002', 'SP003', 'SP004', 'SP005']
-};
-// Hoặc bạn bổ sung tùy vào dữ liệu thực tế
-function updateProductOptionsForAllRows(supplierId) {
-  document.querySelectorAll('select[name^="products"][name$="[id]"]').forEach(function(sel) {
-    // Giữ lại value hiện tại nếu còn hợp lệ
-    const oldVal = sel.value;
-    // Xóa hết option cũ (giữ lại option mặc định)
-    sel.innerHTML = '<option value="">▼</option>';
 
-    let validProducts = SUPPLIER_PRODUCTS[supplierId] || [];
-    validProducts.forEach(sp => {
-      let option = document.createElement('option');
-      option.value = sp;
-      option.textContent = sp;
-      sel.appendChild(option);
-    });
-
-    // Nếu value cũ vẫn hợp lệ thì giữ lại, ngược lại set về ""
-    if (validProducts.includes(oldVal)) {
-      sel.value = oldVal;
-    } else {
-      sel.value = "";
-      // Xóa luôn tên sản phẩm nếu đổi supplier và mã sp không còn phù hợp
-      let row = sel.closest('tr');
-      let nameInput = row.querySelector('input[name^="products"][name$="[name]"]');
-      if (nameInput) nameInput.value = "";
-    }
-  });
-}
-document.querySelector('select[name="supplier_id"]').addEventListener('change', function() {
-  const supplierId = this.value;
-  updateProductOptionsForAllRows(supplierId);
-  updateTotals();
-});
 
 
 // ======= TỰ ĐỘNG NHẢY TÊN SẢN PHẨM ==========
@@ -758,8 +921,63 @@ function hideSuccessPopup() {
 window.location.href = "/stockin-index1";
 
 
-
 }
+function showEditInvoiceConfirmPopup() {
+  document.getElementById('confirm-edit-invoice-popup').style.display = 'flex';
+}
+function hideEditInvoiceConfirmPopup() {
+  document.getElementById('confirm-edit-invoice-popup').style.display = 'none';
+}
+
+function showEditSuccessPopup() {
+  document.getElementById('edit-success-popup').style.display = 'flex';
+}
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('edit-invoice-ok-btn').onclick = function() {
+    hideEditInvoiceConfirmPopup();
+    showEditInvoiceSuccessPopup();
+  };
+});
+
+function showEditInvoiceSuccessPopup() {
+  document.getElementById('edit-invoice-success-popup').style.display = 'flex';
+}
+
+function hideEditInvoiceSuccessPopup() {
+  document.getElementById('edit-invoice-success-popup').style.display = 'none';
+  window.location.href = "/stockin-index2";
+}
+
+
+// Sửa lại validateFormBeforeSubmit
+function validateFormBeforeSubmit(e) {
+  let isValid = true;
+  document.querySelectorAll('tbody tr').forEach(row => {
+    let qtyInput = row.querySelector('input[name*="[qty]"]');
+    let priceInput = row.querySelector('input[name*="[price]"]');
+    let productId = row.querySelector('select[name*="[id]"]')?.value?.trim();
+    let productName = row.querySelector('input[name*="[name]"]')?.value?.trim();
+
+    if (productId || productName) {
+      if (!isValidNumber(qtyInput.value) || !isValidNumber(priceInput.value)) {
+        isValid = false;
+      }
+    }
+  });
+
+  if (!isValid) {
+    showInvalidPopup("Thông tin không hợp lệ");
+    e.preventDefault();
+    return false;
+  }
+  e.preventDefault(); // chặn submit form
+  showEditInvoiceConfirmPopup(); // hiện popup xác nhận
+  return false;
+}
+
 </script>
 <!-- Popup xác nhận -->
 <div id="confirm-popup" class="confirm-popup" style="display:none;">
@@ -790,8 +1008,63 @@ window.location.href = "/stockin-index1";
   <div class="confirm-popup-box" style="background:#a8d5ba;">
     <button class="close-btn" onclick="hideSuccessPopup()">&times;</button>
     <div class="confirm-popup-content">
-      <span style="color:#198754; font-weight:600; font-size:22px;">Thêm phiếu nhập thành công!</span>
+      <span style="color:#fff; font-weight:600; font-size:22px;">Thêm phiếu nhập thành công!</span>
       <!-- Đã xoá nút Đóng ở đây -->
+    </div>
+  </div>
+</div>
+
+<!-- Popup xác nhận sửa -->
+<div id="edit-popup" class="confirm-popup" style="display:none; z-index:5000;">
+  <div class="confirm-popup-box">
+    <button class="close-btn" onclick="hideEditPopup()">&times;</button>
+    <div class="confirm-popup-content">
+      <span id="edit-popup-msg" style="color:#fff; font-weight:600; font-size:20px;">Bạn muốn sửa sản phẩm này?</span>
+      <div class="confirm-popup-actions">
+        <button id="edit-ok-btn" class="confirm-btn">Xác nhận</button>
+        <button onclick="hideEditPopup(true)" class="cancel-btn">Huỷ</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Popup sửa thành công -->
+<div id="edit-success-popup" class="confirm-popup" style="display:none; z-index:6000;">
+  <div class="confirm-popup-box" style="background:#a8d5ba;">
+    <button class="close-btn" onclick="hideEditSuccessPopup()">&times;</button>
+    <div class="confirm-popup-content">
+      <span style="color:#fff; font-weight:600; font-size:22px;">Sửa sản phẩm thành công!</span>
+    </div>
+  </div>
+</div>
+<!-- Popup xóa thành công -->
+<div id="delete-success-popup" class="confirm-popup" style="display:none; z-index:6500;">
+  <div class="confirm-popup-box" style="background:#a8d5ba;">
+    <button class="close-btn" onclick="hideDeleteSuccessPopup()">&times;</button>
+    <div class="confirm-popup-content">
+      <span style="color:#fff; font-weight:600; font-size:22px;">Xóa sản phẩm thành công!</span>
+    </div>
+  </div>
+</div>
+<!-- Popup xác nhận sửa phiếu nhập -->
+<div id="confirm-edit-invoice-popup" class="confirm-popup" style="display:none; z-index:50000;">
+  <div class="confirm-popup-box">
+    <button class="close-btn" onclick="hideEditInvoiceConfirmPopup()">&times;</button>
+    <div class="confirm-popup-content">
+      <span style="color:#fff; font-weight:600; font-size:20px;">Bạn muốn sửa phiếu nhập này?</span>
+      <div class="confirm-popup-actions">
+        <button id="edit-invoice-ok-btn" class="confirm-btn">Xác nhận</button>
+        <button onclick="hideEditInvoiceConfirmPopup()" class="cancel-btn">Huỷ</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Popup sửa thành công -->
+<!-- Popup sửa phiếu nhập thành công -->
+<div id="edit-invoice-success-popup" class="confirm-popup" style="display:none; z-index:6000;">
+  <div class="confirm-popup-box" style="background:#a8d5ba;">
+    <button class="close-btn" onclick="hideEditInvoiceSuccessPopup()">&times;</button>
+    <div class="confirm-popup-content">
+      <span style="color:#fff; font-weight:600; font-size:22px;">Sửa phiếu nhập thành công!</span>
     </div>
   </div>
 </div>

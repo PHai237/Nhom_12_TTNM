@@ -489,8 +489,8 @@
                   <td>10/06/2025</td>
                   <td>NV003</td>
                   <td>MCC001</td>
-                  <td>2</td>
-                  <td>5.860.000đ</td>
+                  <td>1</td>
+                  <td>3.160.000đ</td>
                   <td>
                     <div class="action-btns">
                          <button class="btn-small view-btn1">Xem
