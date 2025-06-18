@@ -481,25 +481,26 @@
     <div class="layout">
         <!-- SIDEBAR -->
         <div class="sidebar" id="sidebar">
-            <a href="/" class="sidebar-item active">
-                <img src="{{ asset('img/home.png') }}"><span>Trang chủ</span>
-            </a>
-            <a href="#" class="sidebar-item">
-                <img src="{{ asset('img/product.png') }}"><span>Quản lý nhà sản phẩm</span>
-            </a>
-            <a href="#" class="sidebar-item">
-                <img src="{{ asset('img/producer.png') }}"><span>Quản lý nhà cung cấp</span>
-            </a>
-            <a href="#" class="sidebar-item">
-                <img src="{{ asset('img/stock_in.png') }}"><span>Quản lý nhập kho</span>
-            </a>
-            <a href="#" class="sidebar-item">
-                <img src="{{ asset('img/stock_out.png') }}"><span>Quản lý xuất kho</span>
-            </a>
-            <a href="#" class="sidebar-item">
-                <img src="{{ asset('img/inventory_report.png') }}"><span>Báo cáo thống kê</span>
-            </a>
-        </div>
+  <a href="{{ route('home') }}" class="sidebar-item {{ request()->routeIs('home') || request()->routeIs('welcome') ? 'active' : '' }}">
+    <img src="{{ asset('img/home.png') }}"><span>Trang chủ</span>
+  </a>
+  <a href="{{ route('products') }}" class="sidebar-item {{ request()->routeIs('products') ? 'active' : '' }}">
+    <img src="{{ asset('img/product.png') }}"><span>Quản lý sản phẩm</span>
+  </a>
+  <a href="{{ route('producer') }}" class="sidebar-item {{ request()->routeIs('producer') ? 'active' : '' }}">
+    <img src="{{ asset('img/producer.png') }}"><span>Quản lý nhà cung cấp</span>
+  </a>
+  <a href="{{ route('stockin') }}" class="sidebar-item {{ request()->routeIs('stockin') ? 'active' : '' }}">
+    <img src="{{ asset('img/stock_in.png') }}"><span>Quản lý nhập kho</span>
+  </a>
+  <a href="{{ route('stockout') }}" class="sidebar-item {{ request()->routeIs('stockout') ? 'active' : '' }}">
+    <img src="{{ asset('img/stock_out.png') }}"><span>Quản lý xuất kho</span>
+  </a>
+  <a href="{{ route('inventory') }}" class="sidebar-item {{ request()->routeIs('inventory') ? 'active' : '' }}">
+    <img src="{{ asset('img/inventory_report.png') }}"><span>Báo cáo thống kê</span>
+  </a>
+</div>
+
         <!-- MAIN -->
         <div class="main">
             <div class="content-header">

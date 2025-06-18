@@ -39,9 +39,7 @@ Route::get('/stockin-index2', function () { return view('stockin.index2'); })->n
 Route::get('/stockout', function () { return view('stockout.index'); })->name('stockout');
 Route::get('/stockout/create', function () { return view('stockout.create'); })->name('stockout.create');
 Route::get('/stockout/show', function () { return view('stockout.show'); })->name('stockout.show');
-Route::get('/stockout-index1', function () { return view('stockout.index1'); })->name('stockout.index1');
 Route::get('/stockout-edit', function () { return view('stockout.edit'); })->name('stockout.edit');
-Route::get('/stockout-index2', function () { return view('stockout.index2'); })->name('stockout.index2');
 
 // ====== INVENTORY ROUTES ======
 Route::get('/inventory', function () {

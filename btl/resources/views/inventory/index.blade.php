@@ -133,22 +133,32 @@
   <div class="layout">
     <!-- SIDEBAR -->
     <div class="sidebar" id="sidebar">
-      <a href="#" class="sidebar-item"><img src='img/home.png'><span>Trang chủ</span></a>
-      <a href="#" class="sidebar-item"><img src='img/product.png'><span>Quản lý sản phẩm</span></a>
-      <a href="#" class="sidebar-item"><img src='img/producer.png'><span>Quản lý nhà cung cấp</span></a>
-      <a href="#" class="sidebar-item"><img src='img/stock_in.png'><span>Quản lý nhập kho</span></a>
-      <a href="#" class="sidebar-item"><img src='img/stock_out.png'><span>Quản lý xuất kho</span></a>
-      <div class="sidebar-item active" id="reportMenu" onclick="toggleReportSubMenu()">
-      <img src='img/inventory_report.png'><span>Báo cáo thống kê</span>
-      <span id="reportArrow" style="margin-left:auto;font-size:15px;">&#9660;</span>
-    </div>
-    <div class="sidebar-submenu" id="reportSubMenu" style="display:block;">
-      <div class="sidebar-subitem active" onclick="showTab('baoCaoTonKho', this)">Báo cáo tồn kho</div>
-      <div class="sidebar-subitem" onclick="showTab('danhSachNhap', this)">Danh sách phiếu nhập kho</div>
-      <div class="sidebar-subitem" onclick="showTab('danhSachXuat', this)">Danh sách phiếu xuất kho</div>
-    </div>
+  <a href="{{ route('home') }}" class="sidebar-item {{ request()->routeIs('home') || request()->routeIs('welcome') ? 'active' : '' }}">
+    <img src="{{ asset('img/home.png') }}"><span>Trang chủ</span>
+  </a>
+  <a href="{{ route('products') }}" class="sidebar-item {{ request()->routeIs('products') ? 'active' : '' }}">
+    <img src="{{ asset('img/product.png') }}"><span>Quản lý sản phẩm</span>
+  </a>
+  <a href="{{ route('producer') }}" class="sidebar-item {{ request()->routeIs('producer') ? 'active' : '' }}">
+    <img src="{{ asset('img/producer.png') }}"><span>Quản lý nhà cung cấp</span>
+  </a>
+  <a href="{{ route('stockin') }}" class="sidebar-item {{ request()->routeIs('stockin') ? 'active' : '' }}">
+    <img src="{{ asset('img/stock_in.png') }}"><span>Quản lý nhập kho</span>
+  </a>
+  <a href="{{ route('stockout') }}" class="sidebar-item {{ request()->routeIs('stockout') ? 'active' : '' }}">
+    <img src="{{ asset('img/stock_out.png') }}"><span>Quản lý xuất kho</span>
+  </a>
+  <a href="{{ route('inventory') }}" class="sidebar-item {{ request()->routeIs('inventory') ? 'active' : '' }}">
+    <img src="{{ asset('img/inventory_report.png') }}"><span>Báo cáo thống kê</span>
+  </a>
+  <!-- Đưa submenu vào trong sidebar, ngay dưới Báo cáo thống kê -->
+  <div class="sidebar-submenu" id="reportSubMenu" style="display:block;">
+    <div class="sidebar-subitem active" onclick="showTab('baoCaoTonKho', this)">Báo cáo tồn kho</div>
+    <div class="sidebar-subitem" onclick="showTab('danhSachNhap', this)">Danh sách phiếu nhập kho</div>
+    <div class="sidebar-subitem" onclick="showTab('danhSachXuat', this)">Danh sách phiếu xuất kho</div>
+  </div>
+</div>
 
-    </div>
     <!-- MAIN -->
     <div class="main">
       <div class="content-box">
