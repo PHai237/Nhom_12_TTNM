@@ -2,11 +2,11 @@
 @php
 $products = [
     (object)[
-        'code' => 'SP001', 'name' => 'Váy xòe', 'stock' => 120, 'price' => 140000,
+        'code' => 'SP001', 'name' => 'Áo phông', 'stock' => 120, 'price' => 130000,
         'supplier' => (object)['name'=>'MCC001']
     ],
     (object)[
-        'code' => 'SP002', 'name' => 'Áo thun', 'stock' => 75, 'price' => 90000,
+        'code' => 'SP002', 'name' => 'Quần đùi', 'stock' => 75, 'price' => 70000,
         'supplier' => (object)['name'=>'MCC002']
     ],
     (object)[

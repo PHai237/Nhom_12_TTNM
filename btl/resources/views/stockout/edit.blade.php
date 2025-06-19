@@ -2,11 +2,11 @@
 @php
 $products = [
     (object)[
-        'code' => 'SP001', 'name' => 'Váy xòe', 'stock' => 120, 'price' => 140000,
+        'code' => 'SP001', 'name' => 'Áo phông', 'stock' => 120, 'price' => 130000,
         'supplier' => (object)['name'=>'MCC001']
     ],
     (object)[
-        'code' => 'SP002', 'name' => 'Áo thun', 'stock' => 75, 'price' => 90000,
+        'code' => 'SP002', 'name' => 'Quần đùi', 'stock' => 75, 'price' => 70000,
         'supplier' => (object)['name'=>'MCC002']
     ],
     (object)[
@@ -475,18 +475,19 @@ function checkValidQty(input) {
 }
 
 function calcTotal() {
-    let tbody = document.getElementById('prodTbody');
-    let tongSL = 0, tongTien = 0;
-    tbody.querySelectorAll('tr').forEach(row => {
-        let sl = Number(row.querySelector('.so-luong')?.value) || 0;
-        let gia = Number((row.querySelector('.gia-sp')?.textContent || '').replace(/[^\d]/g, '')) || 0;
-        if(sl > 0 && gia > 0) {
-            tongSL += sl;
-            tongTien += (sl * gia);
-        }
-    });
-    document.getElementById('tongSanPham').textContent = tongSL;
-    document.getElementById('tongTien').textContent = tongTien.toLocaleString() + 'đ';
+    let tongSL = 0, tongTien = 0, demLoai = 0;
+tbody.querySelectorAll('tr').forEach(row => {
+    let sl = Number(row.querySelector('.so-luong')?.value) || 0;
+    let gia = Number((row.querySelector('.gia-sp')?.textContent || '').replace(/[^\d]/g, '')) || 0;
+    if(sl > 0 && gia > 0) {
+        tongSL += sl;
+        tongTien += (sl * gia);
+        demLoai++; // Đếm mỗi loại sản phẩm có số lượng > 0
+    }
+});
+document.getElementById('tongSanPham').textContent = demLoai;
+document.getElementById('tongTien').textContent = tongTien.toLocaleString() + 'đ';
+
 }
 
 // LẤY MÃ PHIẾU XUẤT ĐANG SỬA
@@ -558,7 +559,7 @@ document.getElementById('editConfirmBtn').onclick = function(e) {
   let employee = document.getElementById('edit_employee').value;
   let products = [];
   let totalProduct = 0, totalPrice = 0;
-  document.querySelectorAll('#prodTbody tr').forEach(row => {
+document.querySelectorAll('#prodTbody tr').forEach(row => {
     let code = row.querySelector('select').value;
     let name = row.querySelector('.ten-sp').textContent;
     let supplier = row.querySelector('.ncc-sp').textContent;
@@ -566,10 +567,11 @@ document.getElementById('editConfirmBtn').onclick = function(e) {
     let price = Number((row.querySelector('.gia-sp').textContent || '').replace(/[^\d]/g, '')) || 0;
     if (code && qty > 0 && price > 0) {
       products.push({code, name, supplier, qty, price});
-      totalProduct += qty;
+      totalProduct++; // Chỉ cộng số dòng có sản phẩm xuất
       totalPrice += qty * price;
     }
-  });
+});
+
   // Update object
   stockout.date = date;
   stockout.employee = employee;
